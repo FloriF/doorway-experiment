@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://yu3apmx1uxpi"]
+
+[sub_resource type="Environment" id="Environment_k5bl0"]
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.01
+
+[node name="Environment" type="Node3D"]
+editor_description = "General environment for lighting, volumetric fog in editor + outside rooms"
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_k5bl0")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.882316, -0.45226, -0.130307, -0.123267, -0.489246, 0.863391, -0.454229, -0.745721, -0.487418, 0, 0, 0)
+shadow_enabled = true

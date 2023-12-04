@@ -1,0 +1,84 @@
+[gd_scene load_steps=4 format=3 uid="uid://7dgeyjgervdc"]
+
+[ext_resource type="Script" path="res://components/control-windows/VignetteToggle.gd" id="1_qddl1"]
+[ext_resource type="Script" path="res://components/control-windows/TrackpadToggle.gd" id="2_k8dk0"]
+[ext_resource type="Script" path="res://components/control-windows/TriggerToggle.gd" id="3_nyjop"]
+
+[node name="StartupWindow" type="Window" groups=["controlWindow"]]
+title = "Doorway Experiment - Startup"
+initial_position = 1
+size = Vector2i(500, 300)
+content_scale_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PreExperiment" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/PreExperiment"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Label" type="Label" parent="VBoxContainer/PreExperiment/HBoxContainer"]
+layout_mode = 2
+text = "Participant ID"
+
+[node name="ParticipantID" type="LineEdit" parent="VBoxContainer/PreExperiment/HBoxContainer"]
+layout_mode = 2
+placeholder_text = "999"
+alignment = 1
+max_length = 3
+
+[node name="Line" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="UserControlled" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Controlled by User"
+horizontal_alignment = 1
+uppercase = true
+
+[node name="Line2" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="UserControls" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="VignetteToggle" type="CheckButton" parent="VBoxContainer/UserControls" groups=["vignetteToggle"]]
+layout_mode = 2
+button_pressed = true
+text = "Vignette"
+script = ExtResource("1_qddl1")
+
+[node name="ExperimenterControlled" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Controlled by Experimenter"
+horizontal_alignment = 1
+uppercase = true
+
+[node name="Line3" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="ExperimenterControls" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="TrackpadToggle" type="CheckButton" parent="VBoxContainer/ExperimenterControls"]
+layout_mode = 2
+button_pressed = true
+text = "Use trackpad/joystick movement"
+script = ExtResource("2_k8dk0")
+
+[node name="TriggerToggle" type="CheckButton" parent="VBoxContainer/ExperimenterControls"]
+layout_mode = 2
+button_pressed = true
+text = "Use trigger movement"
+script = ExtResource("3_nyjop")
+
+[connection signal="toggled" from="VBoxContainer/UserControls/VignetteToggle" to="VBoxContainer/UserControls/VignetteToggle" method="_on_toggled"]
+[connection signal="toggled" from="VBoxContainer/ExperimenterControls/TrackpadToggle" to="VBoxContainer/ExperimenterControls/TrackpadToggle" method="_on_toggled"]
+[connection signal="toggled" from="VBoxContainer/ExperimenterControls/TriggerToggle" to="VBoxContainer/ExperimenterControls/TriggerToggle" method="_on_toggled"]

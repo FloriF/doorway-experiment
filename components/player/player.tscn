@@ -1,0 +1,102 @@
+[gd_scene load_steps=14 format=3 uid="uid://b1vfiloxidu7n"]
+
+[ext_resource type="Script" path="res://components/player/player.gd" id="1_3bv4k"]
+[ext_resource type="PackedScene" uid="uid://cc6ngdqie8o8c" path="res://addons/godot-xr-tools/effects/vignette.tscn" id="1_dl8c6"]
+[ext_resource type="PackedScene" uid="uid://diyu06cw06syv" path="res://addons/godot-xr-tools/player/player_body.tscn" id="2_hg512"]
+[ext_resource type="PackedScene" uid="uid://nqiyqnx42m61" path="res://addons/godot-xr-tools/hands/scenes/highpoly/left_fullglove_physics_hand.tscn" id="3_5ianm"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/overrides/ground_physics_settings.gd" id="4_2uau1"]
+[ext_resource type="Script" path="res://components/player/MovementTriggerBackward.gd" id="4_3ap14"]
+[ext_resource type="PackedScene" uid="uid://cigx2gnf4tg4d" path="res://addons/godot-xr-tools/hands/scenes/highpoly/right_fullglove_physics_hand.tscn" id="4_vnvv2"]
+[ext_resource type="PackedScene" uid="uid://bl2nuu3qhlb5k" path="res://addons/godot-xr-tools/functions/movement_direct.tscn" id="5_0a534"]
+[ext_resource type="Script" path="res://components/player/MovementTriggerForward.gd" id="6_k1uqo"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_1vrbp"]
+radius = 0.111
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ofq7e"]
+transparency = 1
+albedo_color = Color(0.211765, 1, 0.0823529, 0.454902)
+
+[sub_resource type="Resource" id="Resource_g61qw"]
+script = ExtResource("4_2uau1")
+flags = 0
+move_drag = 5.0
+move_traction = 30.0
+stop_on_slope = true
+move_max_slope = 45.0
+jump_max_slope = 45.0
+jump_velocity = 3.0
+bounciness = 0.0
+bounce_threshold = 1.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_yyg26"]
+radius = 0.375367
+height = 1.62625
+
+[node name="Player" type="Node3D" groups=["player"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.033576, 0)
+script = ExtResource("1_3bv4k")
+metadata/_edit_group_ = true
+
+[node name="XROrigin3D" type="XROrigin3D" parent="."]
+metadata/_edit_group_ = true
+
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.63087, 0)
+
+[node name="Vignette" parent="XROrigin3D/XRCamera3D" instance=ExtResource("1_dl8c6")]
+auto_rotation_limit = 5.0
+auto_velocity_limit = 2.0
+
+[node name="UI3D" type="Node3D" parent="XROrigin3D/XRCamera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.03326)
+
+[node name="TimerBar" type="MeshInstance3D" parent="XROrigin3D/XRCamera3D/UI3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.788015, 0, 0)
+mesh = SubResource("SphereMesh_1vrbp")
+surface_material_override/0 = SubResource("StandardMaterial3D_ofq7e")
+
+[node name="Timer" type="Timer" parent="XROrigin3D/XRCamera3D/UI3D"]
+wait_time = 7.0
+
+[node name="PlayerBody" parent="XROrigin3D" instance=ExtResource("2_hg512")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.0396521)
+physics = SubResource("Resource_g61qw")
+metadata/_edit_group_ = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/PlayerBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.18053, 0)
+shape = SubResource("CapsuleShape3D_yyg26")
+
+[node name="XRControllerLeft" type="XRController3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, 0)
+tracker = &"left_hand"
+metadata/_edit_group_ = true
+
+[node name="LeftPhysicsHand" parent="XROrigin3D/XRControllerLeft" instance=ExtResource("3_5ianm")]
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="XROrigin3D/XRControllerLeft/LeftPhysicsHand"]
+transform = Transform3D(0.235, 0, 0, 0, 0.235, 0, 0, 0, 0.235, -0.0332396, -0.0357088, 0.187166)
+mesh = SubResource("SphereMesh_1vrbp")
+skeleton = NodePath("../../../XRCamera3D/UI3D")
+
+[node name="MovementTriggerBackward" type="Node" parent="XROrigin3D/XRControllerLeft" groups=["movement_providers"]]
+script = ExtResource("4_3ap14")
+max_speed = 2.5
+
+[node name="XRControllerRight" type="XRController3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0)
+tracker = &"right_hand"
+metadata/_edit_group_ = true
+
+[node name="RightPhysicsHand" parent="XROrigin3D/XRControllerRight" instance=ExtResource("4_vnvv2")]
+
+[node name="MovementDirectJoystick" parent="XROrigin3D/XRControllerRight" instance=ExtResource("5_0a534")]
+max_speed = 2.5
+strafe = true
+
+[node name="MovementTriggerForward" type="Node" parent="XROrigin3D/XRControllerRight" groups=["movement_providers"]]
+script = ExtResource("6_k1uqo")
+max_speed = 2.5
+
+[connection signal="button_pressed" from="XROrigin3D/XRControllerLeft" to="." method="_on_xr_controller_left_button_pressed"]
