@@ -1,6 +1,6 @@
 # Doorway Experiment
 
-Code + Resoiurces for the experiment in my Master's thesis.
+Code + Resources for the experiment in my Master's thesis.
 
 ## Folder structure
 

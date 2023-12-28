@@ -1,0 +1,39 @@
+[gd_scene load_steps=8 format=3 uid="uid://ra44gbfislug"]
+
+[ext_resource type="Script" path="res://components/item-display/button_show_items.gd" id="1_dqsa4"]
+[ext_resource type="Material" uid="uid://e81bkoiygi7b" path="res://assets/item-display/item_display_material.tres" id="1_wu7dn"]
+[ext_resource type="PackedScene" uid="uid://cme66uldrjl2i" path="res://addons/godot-xr-tools/interactables/interactable_area_button.tscn" id="2_1fd5m"]
+[ext_resource type="Material" uid="uid://c2acachgo7fk3" path="res://assets/item-display/button_material.tres" id="3_qhjqt"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_rs5fa"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_453qv"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_0mjy1"]
+
+[node name="ButtonShowItems" type="Node3D"]
+script = ExtResource("1_dqsa4")
+
+[node name="ButtonBase" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.200875, 0, 0, 0, 1.00438, 0, 0, 0, 0.200875, 0, 0, 0)
+material_override = ExtResource("1_wu7dn")
+mesh = SubResource("BoxMesh_rs5fa")
+
+[node name="InteractableAreaButton" parent="." instance=ExtResource("2_1fd5m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.514109, 0)
+button = NodePath("ButtonMesh")
+
+[node name="ButtonCollision" type="CollisionShape3D" parent="InteractableAreaButton"]
+transform = Transform3D(0.1, 0, 0, 0, -0.1, 0, 0, 0, 0.1, 0, -0.0141094, 0)
+shape = SubResource("BoxShape3D_453qv")
+
+[node name="ButtonMesh" type="MeshInstance3D" parent="InteractableAreaButton"]
+transform = Transform3D(0.1, 0, 0, 0, -0.1, 0, 0, 0, 0.1, 0, -0.0141094, 0)
+material_override = ExtResource("3_qhjqt")
+mesh = SubResource("BoxMesh_0mjy1")
+skeleton = NodePath("../..")
+
+[node name="ItemDisplayLocation" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+
+[connection signal="button_pressed" from="InteractableAreaButton" to="." method="_on_interactable_area_button_button_pressed"]

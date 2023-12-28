@@ -35,6 +35,12 @@ _subresources={
 "use_external/enabled": true,
 "use_external/path": "res://assets/item-display/item_display_material.tres"
 }
+},
+"nodes": {
+"PATH:Cylinder": {
+"generate/physics": true,
+"physics/shape_type": 2
+}
 }
 }
 gltf/naming_version=0

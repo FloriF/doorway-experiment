@@ -1,0 +1,109 @@
+[gd_scene load_steps=25 format=3 uid="uid://dgrnqgrrkingw"]
+
+[ext_resource type="PackedScene" uid="uid://gvkb3yd6ley7" path="res://assets/room-structure-basic/floor.glb" id="1_1ghaa"]
+[ext_resource type="PackedScene" uid="uid://nhje3kkwdi25" path="res://assets/item-display/item_display_base.glb" id="2_ucw4m"]
+[ext_resource type="PackedScene" uid="uid://qrnylk34txny" path="res://assets/appliances/controller_2.glb" id="3_j6r3u"]
+[ext_resource type="PackedScene" uid="uid://dwjpvauc32pey" path="res://assets/appliances/desk_lamp.glb" id="4_tqafv"]
+[ext_resource type="PackedScene" uid="uid://bfd5jnee7snj" path="res://assets/appliances/toaster.glb" id="5_vofbb"]
+[ext_resource type="PackedScene" uid="uid://cqqmtr4p2nabp" path="res://assets/gym/dumbbells.glb" id="6_gaonb"]
+[ext_resource type="PackedScene" uid="uid://boi12heslm5wp" path="res://assets/gym/kettlebell.glb" id="7_3ue4b"]
+[ext_resource type="PackedScene" uid="uid://cptsdcyru82ds" path="res://assets/small_objects/book.glb" id="8_x0o8q"]
+[ext_resource type="PackedScene" uid="uid://djn4u5wfkp7t" path="res://assets/small_objects/book_pile.glb" id="9_3nhq0"]
+[ext_resource type="PackedScene" uid="uid://be4ey3g5w4a0d" path="res://assets/small_objects/calculator.glb" id="10_eq43l"]
+[ext_resource type="PackedScene" uid="uid://bahovpslighk2" path="res://assets/small_objects/can_1.glb" id="11_nhl2u"]
+[ext_resource type="PackedScene" uid="uid://u1brlth70vab" path="res://assets/small_objects/cd.glb" id="12_wjucq"]
+[ext_resource type="PackedScene" uid="uid://dtmhcn8snvquw" path="res://assets/small_objects/cereal.glb" id="13_lgwnx"]
+[ext_resource type="PackedScene" uid="uid://cg4qki1skbdfi" path="res://assets/small_objects/cup_filled.glb" id="14_uxix4"]
+[ext_resource type="PackedScene" uid="uid://c4xiel2of3n4q" path="res://assets/small_objects/globe.glb" id="15_8xgoi"]
+[ext_resource type="PackedScene" uid="uid://dpi8ydll3aire" path="res://assets/small_objects/hammer.glb" id="16_sj8qc"]
+[ext_resource type="PackedScene" uid="uid://bb2i70xbe47im" path="res://assets/small_objects/headphones_1.glb" id="17_ugtth"]
+[ext_resource type="PackedScene" uid="uid://bxcjcyvh8pr2k" path="res://assets/small_objects/keyboard.glb" id="18_j6w3h"]
+[ext_resource type="PackedScene" uid="uid://bwamfl0biifcr" path="res://assets/small_objects/milk.glb" id="19_ehhdh"]
+[ext_resource type="PackedScene" uid="uid://dj70xp0bv38o4" path="res://assets/small_objects/screwdriver.glb" id="20_54mfb"]
+[ext_resource type="PackedScene" uid="uid://c73c64epnoti3" path="res://assets/small_objects/tape.glb" id="21_1mbt0"]
+[ext_resource type="PackedScene" uid="uid://ntyewq3xgcn6" path="res://assets/small_objects/toolbox.glb" id="22_xkjfh"]
+[ext_resource type="PackedScene" uid="uid://dans4856hf42w" path="res://assets/small_objects/washing_product.glb" id="23_8a5lx"]
+[ext_resource type="PackedScene" uid="uid://dx5pgja6s1hto" path="res://assets/small_objects/wrench.glb" id="24_tre3m"]
+
+[node name="Objects" type="Node3D"]
+
+[node name="floor" parent="." instance=ExtResource("1_1ghaa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.364637, 0, -1.43204)
+
+[node name="item_display_base" parent="." instance=ExtResource("2_ucw4m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.59913, -1.36863, 1.89624)
+
+[node name="item_display_base2" parent="." instance=ExtResource("2_ucw4m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.29003, -1.36863, 0.220431)
+
+[node name="item_display_base3" parent="." instance=ExtResource("2_ucw4m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.446537, -1.36863, -4.47973)
+
+[node name="item_display_base4" parent="." instance=ExtResource("2_ucw4m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.12003, -1.36863, -2.84091)
+
+[node name="controller_2" parent="." instance=ExtResource("3_j6r3u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.74535, 0.731399, -3.12595)
+
+[node name="desk_lamp" parent="." instance=ExtResource("4_tqafv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.53961, 0.653579, -3.17813)
+
+[node name="toaster" parent="." instance=ExtResource("5_vofbb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.79328, 0.69864, -2.54292)
+
+[node name="dumbbells" parent="." instance=ExtResource("6_gaonb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0918026, 0.732137, 1.9499)
+
+[node name="kettlebell" parent="." instance=ExtResource("7_3ue4b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.33586, 0.705678, 2.5446)
+
+[node name="book" parent="." instance=ExtResource("8_x0o8q")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.11668, 0.883206, -4.78524)
+
+[node name="book_pile" parent="." instance=ExtResource("9_3nhq0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.796621, 0.644364, -5.11669)
+
+[node name="calculator" parent="." instance=ExtResource("10_eq43l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.378819, 0.681996, -4.80869)
+
+[node name="can_1" parent="." instance=ExtResource("11_nhl2u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00256228, 0.767566, -4.81077)
+
+[node name="cd" parent="." instance=ExtResource("12_wjucq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0805688, 0.697014, -5.29015)
+
+[node name="cereal" parent="." instance=ExtResource("13_lgwnx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.660514, 0.643464, -4.2269)
+
+[node name="cup_filled" parent="." instance=ExtResource("14_uxix4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.144973, 0.645485, -4.52777)
+
+[node name="globe" parent="." instance=ExtResource("15_8xgoi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.124219, 0.649915, -4.9383)
+
+[node name="hammer" parent="." instance=ExtResource("16_sj8qc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6218, 0.681654, 0.562575)
+
+[node name="headphones_1" parent="." instance=ExtResource("17_ugtth")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.076893, 0.783217, -4.09963)
+
+[node name="keyboard" parent="." instance=ExtResource("18_j6w3h")]
+transform = Transform3D(1, 0, 0, 0, -0.0309397, -0.999521, 0, 0.999521, -0.0309397, -0.319204, 0.696694, -3.79152)
+
+[node name="milk" parent="." instance=ExtResource("19_ehhdh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.267686, 0.643391, -4.22336)
+
+[node name="screwdriver" parent="." instance=ExtResource("20_54mfb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.47102, 0.681654, 0.593433)
+
+[node name="tape" parent="." instance=ExtResource("21_1mbt0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.31466, 0.681654, 0.647408)
+
+[node name="toolbox" parent="." instance=ExtResource("22_xkjfh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.19172, 0.681654, 0.308408)
+
+[node name="washing_product" parent="." instance=ExtResource("23_8a5lx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.87414, 0.681654, 0.472352)
+
+[node name="wrench" parent="." instance=ExtResource("24_tre3m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9748, 0.681654, 0.567969)
