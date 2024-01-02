@@ -11,13 +11,18 @@ config_version=5
 [application]
 
 config/name="DoorwayExperiment"
-run/main_scene="res://components/main/main.tscn"
+run/main_scene="res://components/control-windows/startup-window.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
 XRToolsUserSettings="*res://addons/godot-xr-tools/user_settings/user_settings.gd"
+ExperimentLogic="*res://components/experiment-logic/experiment_logic.tscn"
+
+[debug]
+
+file_logging/enable_file_logging=true
 
 [display]
 

@@ -1,27 +1,16 @@
-[gd_scene load_steps=11 format=3 uid="uid://cad5toue0r4xi"]
+[gd_scene load_steps=7 format=3 uid="uid://cad5toue0r4xi"]
 
 [ext_resource type="PackedScene" uid="uid://yu3apmx1uxpi" path="res://components/main/environment.tscn" id="1_0ui7l"]
-[ext_resource type="PackedScene" uid="uid://b1vfiloxidu7n" path="res://components/player/player.tscn" id="2_tfhcv"]
 [ext_resource type="PackedScene" uid="uid://oxfqbm16flx5" path="res://assets/room-structure-basic/door.glb" id="3_4xdjp"]
 [ext_resource type="PackedScene" uid="uid://d4ivye4enoqdn" path="res://assets/room-structure-basic/wall_textured.glb" id="4_mxk1r"]
 [ext_resource type="PackedScene" uid="uid://gvkb3yd6ley7" path="res://assets/room-structure-basic/floor.glb" id="5_e88ca"]
-[ext_resource type="PackedScene" uid="uid://7dgeyjgervdc" path="res://components/control-windows/startup-window.tscn" id="6_ak123"]
 [ext_resource type="PackedScene" uid="uid://dseqo62o2rwcb" path="res://components/rooms/test_room.tscn" id="7_ak6yv"]
 [ext_resource type="PackedScene" uid="uid://dgrnqgrrkingw" path="res://components/rooms/objects.tscn" id="8_1wgjp"]
-[ext_resource type="PackedScene" uid="uid://bs2ixpjs20ify" path="res://assets/furniture/mat_2.glb" id="10_uj63l"]
-[ext_resource type="PackedScene" uid="uid://ra44gbfislug" path="res://components/item-display/button_show_items.tscn" id="11_err24"]
 
 [node name="Main" type="Node"]
 
 [node name="Environment" parent="." instance=ExtResource("1_0ui7l")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 14.4392, 0)
-
-[node name="Player" parent="." instance=ExtResource("2_tfhcv")]
-transform = Transform3D(0.0156899, 0, 0.999877, 0, 1, 0, -0.999877, 0, 0.0156899, -2.86952, 1.46941, 0.57693)
-
-[node name="ExtraWindows" type="Node" parent="."]
-
-[node name="StartupWindow" parent="ExtraWindows" instance=ExtResource("6_ak123")]
 
 [node name="Level" type="Node" parent="."]
 
@@ -43,8 +32,5 @@ transform = Transform3D(-0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, -0.5, -7.41632
 [node name="Objects" parent="." instance=ExtResource("8_1wgjp")]
 transform = Transform3D(-0.167509, 0, -0.985871, 0, 1, 0, 0.985871, 0, -0.167509, -2.81272, 0, -6.71353)
 
-[node name="mat_2" parent="." instance=ExtResource("10_uj63l")]
-transform = Transform3D(0.918253, 0, 0.395994, 0, 1, 0, -0.395994, 0, 0.918253, -2.17809, 0.166667, -8.43323)
-
-[node name="ButtonShowItems" parent="." instance=ExtResource("11_err24")]
-transform = Transform3D(0.00822023, 0, 0.999966, 0, 1, 0, -0.999966, 0, 0.00822023, -5.25577, 1.22365, 1.05236)
+[node name="PlayerStartPosition" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6443, 3.01276, -0.755127)

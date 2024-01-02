@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://nhje3kkwdi25" path="res://assets/item-display/item_display_base.glb" id="1_5v2rh"]
 [ext_resource type="Script" path="res://components/item-display/item_display.gd" id="1_cbrte"]
 [ext_resource type="PackedScene" uid="uid://b6f3sd2l0ky4d" path="res://assets/item-display/item_display_lid.glb" id="2_pfyig"]
-[ext_resource type="PackedScene" uid="uid://ckqnh60a5tsjb" path="res://components/object-layout/object_layout.tscn" id="3_2uk8n"]
+[ext_resource type="PackedScene" uid="uid://ckqnh60a5tsjb" path="res://components/trial/object_layout.tscn" id="3_2uk8n"]
 
 [sub_resource type="Animation" id="Animation_12q0x"]
 length = 0.001
@@ -47,7 +47,7 @@ script = ExtResource("1_cbrte")
 [node name="item_display_base" parent="." instance=ExtResource("1_5v2rh")]
 
 [node name="ObjectPositionOnItemDisplay" type="Marker3D" parent="item_display_base"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.08235, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.01259, 0)
 
 [node name="ObjectLayout" parent="item_display_base/ObjectPositionOnItemDisplay" instance=ExtResource("3_2uk8n")]
 

@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://cp88hgqa4uspm"]
+
+[ext_resource type="PackedScene" uid="uid://gvkb3yd6ley7" path="res://assets/room-structure-basic/floor.glb" id="1_pfj1v"]
+[ext_resource type="PackedScene" uid="uid://d4ivye4enoqdn" path="res://assets/room-structure-basic/wall_textured.glb" id="2_dbuf1"]
+[ext_resource type="PackedScene" uid="uid://ra44gbfislug" path="res://components/item-display/button_show_items.tscn" id="3_c8gay"]
+
+[node name="Workshop-1" type="Node3D"]
+
+[node name="floor" parent="." instance=ExtResource("1_pfj1v")]
+
+[node name="wall_textured" parent="." instance=ExtResource("2_dbuf1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.643531, 0.166667, -1.75579)
+
+[node name="ButtonShowItems" parent="." instance=ExtResource("3_c8gay")]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -0.678056, 1.27466, -1.17443)

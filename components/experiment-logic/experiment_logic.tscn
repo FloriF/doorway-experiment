@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://u7ctxvtd1hem"]
+
+[ext_resource type="Script" path="res://components/experiment-logic/experiment_logic.gd" id="1_3pyvb"]
+
+[node name="ExperimentLogic" type="Node"]
+script = ExtResource("1_3pyvb")
+
+[node name="Trials" type="Node" parent="."]
+
+[node name="CompletedTrials" type="Node" parent="Trials"]
+
+[node name="CurrentTrial" type="Node" parent="Trials"]
+
+[node name="NextTrial" type="Node" parent="Trials"]
+
+[node name="FutureTrials" type="Node" parent="Trials"]
+
+[node name="ErrorTrials" type="Node" parent="Trials"]

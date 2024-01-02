@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://gvkb3yd6ley7" path="res://assets/room-structure-basic/floor.glb" id="1_ss3rv"]
 [ext_resource type="PackedScene" uid="uid://cpe7wvl3do87q" path="res://assets/room-structure-basic/floor_wood.glb" id="2_4ow4v"]
-[ext_resource type="Script" path="res://assets/room-structure-basic/roof.gd" id="2_cj5vb"]
+[ext_resource type="Script" path="res://components/rooms/roof.gd" id="2_ea8t8"]
 [ext_resource type="PackedScene" uid="uid://bi2aaubtog8se" path="res://assets/room-structure-basic/wall_column.glb" id="4_p3avt"]
 [ext_resource type="PackedScene" uid="uid://dr3rv3qjfqdlv" path="res://assets/furniture/bed.glb" id="5_twacf"]
 [ext_resource type="PackedScene" uid="uid://b642td4ploa1h" path="res://assets/furniture/bed_pillow.glb" id="6_vgsx5"]
@@ -46,7 +46,7 @@
 [node name="roof" parent="." instance=ExtResource("1_ss3rv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.42552, 0)
 visible = false
-script = ExtResource("2_cj5vb")
+script = ExtResource("2_ea8t8")
 
 [node name="FloorWood" type="Node3D" parent="."]
 metadata/_edit_group_ = true

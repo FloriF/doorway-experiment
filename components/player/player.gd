@@ -17,11 +17,21 @@ func _ready() -> void:
 		print("OpenXR not initialized, please check if your headset is connected")
 
 
+func fadeToBlack() -> void:
+	$XROrigin3D/XRCamera3D/FadeAnimation.play("fade_to_black")
+	
+func fadeToScene() -> void:
+	$XROrigin3D/XRCamera3D/FadeAnimation.play_backwards("fade_to_black")
+
 func _on_xr_controller_left_button_pressed(name: String) -> void:
 	if name == "ax_button":
 		toggle_vignette_visibility()
 		
-		
+# experimenter triggers the calibrate height function of the xr toolbox
+func expCalibrateHeight() -> void:
+	# set the flag to true, so the next time the player is moved in any way, the calibration is triggered
+	# see xr toolbox documentation on PlayerBody, player_calibrate_height 
+	$XROrigin3D/PlayerBody.player_calibrate_height = true
 		
 func toggle_vignette_visibility() -> void:
 	# set visibility

@@ -16,5 +16,8 @@ func open_lid() -> void:
 func close_lid() -> void:
 	$item_display_lid/LidMovement.play_backwards("opening")
 
+func getObjectPositionOnDisplay() -> Node:
+	return $item_display_base/ObjectPositionOnItemDisplay
+
 func _on_timer_timeout() -> void:
 	close_lid()

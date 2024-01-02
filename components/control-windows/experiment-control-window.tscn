@@ -1,0 +1,145 @@
+[gd_scene load_steps=7 format=3 uid="uid://b0gmen7vjw4wd"]
+
+[ext_resource type="Script" path="res://components/control-windows/experiment-control-window.gd" id="1_nor5n"]
+[ext_resource type="Script" path="res://components/control-windows/VignetteToggle.gd" id="1_wl0dw"]
+[ext_resource type="Script" path="res://components/control-windows/TrackpadToggle.gd" id="2_gmupn"]
+[ext_resource type="Script" path="res://components/control-windows/LiveData.gd" id="2_kk16u"]
+[ext_resource type="Script" path="res://components/control-windows/TriggerToggle.gd" id="3_071nj"]
+[ext_resource type="Script" path="res://components/control-windows/HeightCalibration.gd" id="5_2bvlu"]
+
+[node name="ExperimentControlWindow" type="Window" groups=["controlWindow"]]
+title = "Doorway Experiment - Control"
+initial_position = 1
+size = Vector2i(500, 500)
+content_scale_mode = 1
+script = ExtResource("1_nor5n")
+
+[node name="CenterVertically" type="VBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="ExperimentInformation" type="VBoxContainer" parent="CenterVertically"]
+layout_mode = 2
+
+[node name="CenterHorizontally" type="HBoxContainer" parent="CenterVertically/ExperimentInformation"]
+layout_mode = 2
+size_flags_horizontal = 4
+alignment = 1
+
+[node name="Label" type="Label" parent="CenterVertically/ExperimentInformation/CenterHorizontally"]
+layout_mode = 2
+text = "Participant ID"
+
+[node name="ParticipantID" type="Label" parent="CenterVertically/ExperimentInformation/CenterHorizontally"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "XXX"
+
+[node name="Line4" type="HSeparator" parent="CenterVertically"]
+layout_mode = 2
+
+[node name="LiveData" type="VBoxContainer" parent="CenterVertically"]
+layout_mode = 2
+script = ExtResource("2_kk16u")
+
+[node name="CenterHorizontally2" type="HBoxContainer" parent="CenterVertically/LiveData"]
+layout_mode = 2
+size_flags_horizontal = 4
+alignment = 1
+
+[node name="Label" type="Label" parent="CenterVertically/LiveData/CenterHorizontally2"]
+layout_mode = 2
+text = "Current Trial:             "
+
+[node name="CurrentTrialNumber" type="Label" parent="CenterVertically/LiveData/CenterHorizontally2"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "230"
+horizontal_alignment = 2
+
+[node name="Label2" type="Label" parent="CenterVertically/LiveData/CenterHorizontally2"]
+layout_mode = 2
+text = " of "
+horizontal_alignment = 3
+
+[node name="NumberOfTrials" type="Label" parent="CenterVertically/LiveData/CenterHorizontally2"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "XXX"
+horizontal_alignment = 3
+
+[node name="ProgressBar" type="ProgressBar" parent="CenterVertically/LiveData"]
+layout_mode = 2
+
+[node name="Line" type="HSeparator" parent="CenterVertically"]
+layout_mode = 2
+
+[node name="UserControlled" type="Label" parent="CenterVertically"]
+layout_mode = 2
+text = "Controlled by User"
+horizontal_alignment = 1
+uppercase = true
+
+[node name="Line2" type="HSeparator" parent="CenterVertically"]
+layout_mode = 2
+
+[node name="UserControls" type="VBoxContainer" parent="CenterVertically"]
+layout_mode = 2
+
+[node name="VignetteToggle" type="CheckButton" parent="CenterVertically/UserControls" groups=["vignetteToggle"]]
+layout_mode = 2
+button_pressed = true
+text = "Vignette"
+script = ExtResource("1_wl0dw")
+
+[node name="ExperimenterControlled" type="Label" parent="CenterVertically"]
+layout_mode = 2
+text = "Controlled by Experimenter"
+horizontal_alignment = 1
+uppercase = true
+
+[node name="Line3" type="HSeparator" parent="CenterVertically"]
+layout_mode = 2
+
+[node name="ExperimenterControls" type="VBoxContainer" parent="CenterVertically"]
+layout_mode = 2
+
+[node name="TrackpadToggle" type="CheckButton" parent="CenterVertically/ExperimenterControls"]
+layout_mode = 2
+button_pressed = true
+text = "Use trackpad/joystick movement"
+script = ExtResource("2_gmupn")
+
+[node name="TriggerToggle" type="CheckButton" parent="CenterVertically/ExperimenterControls"]
+layout_mode = 2
+button_pressed = true
+text = "Use trigger movement"
+script = ExtResource("3_071nj")
+
+[node name="HeightCalibration" type="Button" parent="CenterVertically/ExperimenterControls"]
+layout_mode = 2
+text = "Re-calibrate height"
+script = ExtResource("5_2bvlu")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Button" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+text = "random"
+
+[node name="Button2" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+text = "error trial"
+
+[connection signal="toggled" from="CenterVertically/UserControls/VignetteToggle" to="CenterVertically/UserControls/VignetteToggle" method="_on_toggled"]
+[connection signal="toggled" from="CenterVertically/ExperimenterControls/TrackpadToggle" to="CenterVertically/ExperimenterControls/TrackpadToggle" method="_on_toggled"]
+[connection signal="toggled" from="CenterVertically/ExperimenterControls/TriggerToggle" to="CenterVertically/ExperimenterControls/TriggerToggle" method="_on_toggled"]
+[connection signal="pressed" from="CenterVertically/ExperimenterControls/HeightCalibration" to="CenterVertically/ExperimenterControls/HeightCalibration" method="_on_pressed"]
+[connection signal="pressed" from="HBoxContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/Button2" to="." method="_on_button_2_pressed"]

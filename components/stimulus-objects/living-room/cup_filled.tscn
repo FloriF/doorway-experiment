@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://jo7rg7k44asb"]
+
+[ext_resource type="PackedScene" uid="uid://cg4qki1skbdfi" path="res://assets/small_objects/cup_filled.glb" id="1_5kqvh"]
+
+[node name="cup_filled" instance=ExtResource("1_5kqvh")]

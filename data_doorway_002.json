@@ -1,0 +1,15 @@
+{"trial_number":1,"first_room":"LivingRoom","doorway":"NoDoorway","second_room":"LivingRoom","repetitions":0,"error_info":null,"Location1":"globe","Location2":"can_1","Location3":"none","Location4":"calculator","Location5":"milk","Location6":"cup_filled","Location7":"none","trial_time":"0"}
+
+{"trial_number":2,"first_room":"Workshop","doorway":"Doorway","second_room":"Workshop","repetitions":0,"error_info":null,"Location1":"none","Location2":"none","Location3":"calculator","Location4":"globe","Location5":"milk","Location6":"cup_filled","Location7":"can_1","trial_time":"0"}
+
+{"trial_number":3,"first_room":"LivingRoom","doorway":"Doorway","second_room":"LivingRoom","repetitions":0,"error_info":null,"Location1":"none","Location2":"can_1","Location3":"calculator","Location4":"milk","Location5":"cup_filled","Location6":"globe","Location7":"none","trial_time":"0"}
+
+{"trial_number":4,"first_room":"Workshop","doorway":"NoDoorway","second_room":"LivingRoom","repetitions":0,"error_info":null,"Location1":"milk","Location2":"globe","Location3":"none","Location4":"cup_filled","Location5":"can_1","Location6":"calculator","Location7":"none","trial_time":"0"}
+
+{"trial_number":1,"first_room":"LivingRoom","doorway":"NoDoorway","second_room":"LivingRoom","repetitions":0,"error_info":"debug_button","Location1":"globe","Location2":"can_1","Location3":"none","Location4":"calculator","Location5":"milk","Location6":"cup_filled","Location7":"none","trial_time":"0"}
+
+{"trial_number":2,"first_room":"Workshop","doorway":"Doorway","second_room":"Workshop","repetitions":0,"error_info":"debug_button","Location1":"none","Location2":"none","Location3":"calculator","Location4":"globe","Location5":"milk","Location6":"cup_filled","Location7":"can_1","trial_time":"0"}
+
+{"trial_number":3,"first_room":"LivingRoom","doorway":"Doorway","second_room":"LivingRoom","repetitions":0,"error_info":null,"Location1":"none","Location2":"can_1","Location3":"calculator","Location4":"milk","Location5":"cup_filled","Location6":"globe","Location7":"none","trial_time":"0"}
+
+

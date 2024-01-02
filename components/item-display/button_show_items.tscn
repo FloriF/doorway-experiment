@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://cme66uldrjl2i" path="res://addons/godot-xr-tools/interactables/interactable_area_button.tscn" id="2_1fd5m"]
 [ext_resource type="Material" uid="uid://c2acachgo7fk3" path="res://assets/item-display/button_material.tres" id="3_qhjqt"]
 [ext_resource type="Script" path="res://components/item-display/item_display.gd" id="5_8x58v"]
-[ext_resource type="PackedScene" uid="uid://ckqnh60a5tsjb" path="res://components/object-layout/object_layout.tscn" id="6_pcbd3"]
+[ext_resource type="PackedScene" uid="uid://ckqnh60a5tsjb" path="res://components/trial/object_layout.tscn" id="6_pcbd3"]
 [ext_resource type="PackedScene" uid="uid://bs2ixpjs20ify" path="res://assets/furniture/mat_2.glb" id="7_jvpd1"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_rs5fa"]
@@ -129,12 +129,12 @@ _data = {
 script = ExtResource("1_dqsa4")
 
 [node name="ButtonBase" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.200875, 0, 0, 0, 1.00438, 0, 0, 0, 0.200875, 0, -0.470614, 0)
+transform = Transform3D(0.200875, 0, 0, 0, 1.00438, 0, 0, 0, 0.200875, 0, -1.18332, 2.00116)
 material_override = ExtResource("1_wu7dn")
 mesh = SubResource("BoxMesh_rs5fa")
 
 [node name="InteractableAreaButton" parent="." instance=ExtResource("2_1fd5m")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.514109, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.198598, 2.00116)
 button = NodePath("ButtonMesh")
 
 [node name="ButtonCollision" type="CollisionShape3D" parent="InteractableAreaButton"]
@@ -148,7 +148,7 @@ mesh = SubResource("BoxMesh_0mjy1")
 skeleton = NodePath("../..")
 
 [node name="ItemDisplayLocation" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.2758, -2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.2758, 0.00116158)
 
 [node name="InEditorPreviewItemDisplay" type="Node3D" parent="ItemDisplayLocation"]
 script = ExtResource("5_8x58v")
@@ -198,7 +198,7 @@ wait_time = 5.0
 one_shot = true
 
 [node name="mat_2" parent="." instance=ExtResource("7_jvpd1")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, -1.06372, 0.789601)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, -1.06372, 2.79076)
 
 [connection signal="button_pressed" from="InteractableAreaButton" to="." method="_on_interactable_area_button_button_pressed"]
 [connection signal="timeout" from="ItemDisplayLocation/InEditorPreviewItemDisplay/item_display_lid/Timer" to="ItemDisplayLocation/InEditorPreviewItemDisplay" method="_on_timer_timeout"]

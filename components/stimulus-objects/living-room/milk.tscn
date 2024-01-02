@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://bwo7e5jaysbm2"]
+
+[ext_resource type="PackedScene" uid="uid://bwamfl0biifcr" path="res://assets/small_objects/milk.glb" id="1_dlbkl"]
+
+[node name="milk" instance=ExtResource("1_dlbkl")]
