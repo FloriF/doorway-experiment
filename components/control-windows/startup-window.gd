@@ -24,5 +24,18 @@ func _on_start_experiment_pressed() -> void:
 	$CenterVertically/StartExperiment.disabled = true
 	$CenterVertically/CenterHorizontally/ParticipantID.editable = false
 	
-	# add the participant/player to the scene
+		# add the participant/player to the intial empty scene
 	get_tree().root.get_node("EmptyScene").get_node("PlayerStartPosition").add_child(ExperimentLogic.player)
+	
+##########################
+
+
+	# put the player node into currentplayer
+	ExperimentLogic.currentPlayerNode = ExperimentLogic.player
+	
+	# prepare the first trial
+	# get a random trial and make it the next trial
+	ExperimentLogic.setNextTrial(ExperimentLogic.pickRandomTrial())
+	# instantiate the current trial
+	ExperimentLogic.getNextTrial().populateTrial()
+	

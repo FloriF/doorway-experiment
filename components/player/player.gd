@@ -19,6 +19,8 @@ func _ready() -> void:
 
 func fadeToBlack() -> void:
 	$XROrigin3D/XRCamera3D/FadeAnimation.play("fade_to_black")
+	# give the player some time in the dark, during which the next trial will be prepared
+	$XROrigin3D/XRCamera3D/Timer.start()
 	
 func fadeToScene() -> void:
 	$XROrigin3D/XRCamera3D/FadeAnimation.play_backwards("fade_to_black")
@@ -32,7 +34,8 @@ func expCalibrateHeight() -> void:
 	# set the flag to true, so the next time the player is moved in any way, the calibration is triggered
 	# see xr toolbox documentation on PlayerBody, player_calibrate_height 
 	$XROrigin3D/PlayerBody.player_calibrate_height = true
-		
+
+
 func toggle_vignette_visibility() -> void:
 	# set visibility
 	$XROrigin3D/XRCamera3D/Vignette.visible = not $XROrigin3D/XRCamera3D/Vignette.visible
@@ -47,3 +50,7 @@ func toggle_trackpad(new_state: bool) -> void:
 func toggle_triggers(new_state: bool) -> void:
 	$XROrigin3D/XRControllerLeft/MovementTriggerBackward.enabled = new_state
 	$XROrigin3D/XRControllerRight/MovementTriggerForward.enabled = new_state
+
+
+func _on_timer_timeout() -> void:
+	fadeToScene()

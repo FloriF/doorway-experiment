@@ -1,0 +1,401 @@
+[gd_scene load_steps=17 format=3 uid="uid://xb6sj3p48e84"]
+
+[ext_resource type="Material" uid="uid://e81bkoiygi7b" path="res://assets/item-display/item_display_material.tres" id="1_cukr5"]
+[ext_resource type="Script" path="res://components/item-display/response_buttons.gd" id="1_ddh4d"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/interactables/interactable_area_button.gd" id="3_3xu2g"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_rs5fa"]
+size = Vector3(1, 1.975, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_453qv"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t1w4i"]
+resource_name = "Material.001"
+cull_mode = 2
+vertex_color_use_as_albedo = true
+albedo_color = Color(0, 1, 0, 1)
+roughness = 0.56
+
+[sub_resource type="BoxMesh" id="BoxMesh_0mjy1"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wqcfw"]
+resource_name = "Material.001"
+cull_mode = 2
+vertex_color_use_as_albedo = true
+albedo_color = Color(1, 0, 0, 1)
+roughness = 0.56
+
+[sub_resource type="Animation" id="Animation_un5hj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_t2gy0"]
+resource_name = "hide"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, -1.28, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_o4kqp"]
+_data = {
+"RESET": SubResource("Animation_un5hj"),
+"hide": SubResource("Animation_t2gy0")
+}
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ai7b5"]
+resource_name = "Material.001"
+cull_mode = 2
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.807843, 0.682353, 0, 1)
+roughness = 0.56
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ulel0"]
+resource_name = "Material.001"
+cull_mode = 2
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.807843, 0.682353, 0, 1)
+roughness = 0.56
+
+[sub_resource type="Animation" id="Animation_2veoy"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, -1.5, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_yjpxx"]
+resource_name = "show_confidence_buttons"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, -1.5, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vglxw"]
+_data = {
+"RESET": SubResource("Animation_2veoy"),
+"show_confidence_buttons": SubResource("Animation_yjpxx")
+}
+
+[node name="ResponseButtons" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+script = ExtResource("1_ddh4d")
+
+[node name="ItemDisplayLocation" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0159755, 0.809389, -0.934783)
+
+[node name="ButtonTimeOut" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+
+[node name="AnswerButtons" type="Node3D" parent="."]
+
+[node name="SameButton" type="Node3D" parent="AnswerButtons"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0, 0)
+
+[node name="ButtonBase" type="MeshInstance3D" parent="AnswerButtons/SameButton"]
+transform = Transform3D(0.200875, 0, 0, 0, 1.00438, 0, 0, 0, 0.200875, -0.0159755, 0.0913399, 0.82673)
+material_override = ExtResource("1_cukr5")
+mesh = SubResource("BoxMesh_rs5fa")
+skeleton = NodePath("../../..")
+
+[node name="SameButton" type="Area3D" parent="AnswerButtons/SameButton"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.678056, 1.07606, 0.82673)
+collision_layer = 0
+collision_mask = 131072
+script = ExtResource("3_3xu2g")
+button = NodePath("ButtonMesh")
+
+[node name="ButtonCollision" type="CollisionShape3D" parent="AnswerButtons/SameButton/SameButton"]
+transform = Transform3D(0.1, 0, 0, 0, -0.1, 0, 0, 0, 0.1, 0.662081, -0.0141094, 0)
+shape = SubResource("BoxShape3D_453qv")
+
+[node name="ButtonMesh" type="MeshInstance3D" parent="AnswerButtons/SameButton/SameButton"]
+transform = Transform3D(0.1, 0, 0, 0, -0.1, 0, 0, 0, 0.1, 0.662081, -0.0141094, 0)
+material_override = SubResource("StandardMaterial3D_t1w4i")
+mesh = SubResource("BoxMesh_0mjy1")
+skeleton = NodePath("../../../..")
+
+[node name="Label3D" type="Label3D" parent="AnswerButtons/SameButton/SameButton/ButtonMesh"]
+transform = Transform3D(2.00875, 0, 0, 0, -2.98023e-07, -10.0438, 0, -2.00875, 3.72529e-08, 0, -0.50317, 0.00330162)
+text = "SAME"
+
+[node name="DifferentButton" type="Node3D" parent="AnswerButtons"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0, 0)
+
+[node name="ButtonBase" type="MeshInstance3D" parent="AnswerButtons/DifferentButton"]
+transform = Transform3D(0.200875, 0, 0, 0, 1.00438, 0, 0, 0, 0.200875, -0.0159755, 0.0913399, 0.82673)
+material_override = ExtResource("1_cukr5")
+mesh = SubResource("BoxMesh_rs5fa")
+skeleton = NodePath("../../..")
+
+[node name="DifferentButton" type="Area3D" parent="AnswerButtons/DifferentButton"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.678056, 1.07606, 0.82673)
+collision_layer = 0
+collision_mask = 131072
+script = ExtResource("3_3xu2g")
+button = NodePath("ButtonMesh")
+
+[node name="ButtonCollision" type="CollisionShape3D" parent="AnswerButtons/DifferentButton/DifferentButton"]
+transform = Transform3D(0.1, 0, 0, 0, -0.1, 0, 0, 0, 0.1, 0.662081, -0.0141094, 0)
+shape = SubResource("BoxShape3D_453qv")
+
+[node name="ButtonMesh" type="MeshInstance3D" parent="AnswerButtons/DifferentButton/DifferentButton"]
+transform = Transform3D(0.1, 0, 0, 0, -0.1, 0, 0, 0, 0.1, 0.662081, -0.0141094, 0)
+material_override = SubResource("StandardMaterial3D_wqcfw")
+mesh = SubResource("BoxMesh_0mjy1")
+skeleton = NodePath("../../../..")
+
+[node name="Label3D2" type="Label3D" parent="AnswerButtons/DifferentButton/DifferentButton/ButtonMesh"]
+transform = Transform3D(2.00875, 0, 0, 0, -2.98023e-07, -10.0438, 0, -2.00875, 3.72529e-08, -0.0225735, -0.50317, 0.00330162)
+text = "DIFF"
+
+[node name="HideResponseButtons" type="AnimationPlayer" parent="AnswerButtons"]
+libraries = {
+"": SubResource("AnimationLibrary_o4kqp")
+}
+
+[node name="ConfidenceButtons" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.5, 0)
+
+[node name="Conf_wrong3" type="Node3D" parent="ConfidenceButtons"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0, 0)
+
+[node name="ButtonBase" type="MeshInstance3D" parent="ConfidenceButtons/Conf_wrong3"]
+transform = Transform3D(0.200875, 0, 0, 0, 1.00438, 0, 0, 0, 0.200875, -0.0159755, 0.0913399, 0.82673)
+material_override = ExtResource("1_cukr5")
+mesh = SubResource("BoxMesh_rs5fa")
+skeleton = NodePath("../../..")
+
+[node name="Conf_wrong3" type="Area3D" parent="ConfidenceButtons/Conf_wrong3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.678056, 1.07606, 0.82673)
+collision_layer = 0
+collision_mask = 131072
+monitoring = false
+script = ExtResource("3_3xu2g")
+button = NodePath("ButtonMesh")
+
+[node name="ButtonCollision" type="CollisionShape3D" parent="ConfidenceButtons/Conf_wrong3/Conf_wrong3"]
+transform = Transform3D(0.1, 0, 0, 0, -0.1, 0, 0, 0, 0.1, 0.662081, -0.0141094, 0)
+shape = SubResource("BoxShape3D_453qv")
+
+[node name="ButtonMesh" type="MeshInstance3D" parent="ConfidenceButtons/Conf_wrong3/Conf_wrong3"]
+transform = Transform3D(0.1, 0, 0, 0, -0.1, 0, 0, 0, 0.1, 0.662081, -0.0141094, 0)
+material_override = SubResource("StandardMaterial3D_ai7b5")
+mesh = SubResource("BoxMesh_0mjy1")
+skeleton = NodePath("../../../..")
+
+[node name="Label3D" type="Label3D" parent="ConfidenceButtons/Conf_wrong3/Conf_wrong3/ButtonMesh"]
+transform = Transform3D(1.269, -1.1094e-07, -2.42428e-14, 0, 5.54698e-08, -6.344, -1.1094e-07, -1.269, -2.77305e-07, 0, -0.50317, 0.00330162)
+text = "certainly
+wrong"
+
+[node name="Conf_wrong2" type="Node3D" parent="ConfidenceButtons"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0)
+
+[node name="ButtonBase" type="MeshInstance3D" parent="ConfidenceButtons/Conf_wrong2"]
+transform = Transform3D(0.200875, 0, 0, 0, 1.00438, 0, 0, 0, 0.200875, -0.0159755, 0.0913399, 0.82673)
+material_override = ExtResource("1_cukr5")
+mesh = SubResource("BoxMesh_rs5fa")
+skeleton = NodePath("../../..")
+
+[node name="Conf_wrong2" type="Area3D" parent="ConfidenceButtons/Conf_wrong2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.678056, 1.07606, 0.82673)
+collision_layer = 0
+collision_mask = 131072
+monitoring = false
+script = ExtResource("3_3xu2g")
+button = NodePath("ButtonMesh")
+
+[node name="ButtonCollision" type="CollisionShape3D" parent="ConfidenceButtons/Conf_wrong2/Conf_wrong2"]
+transform = Transform3D(0.1, 0, 0, 0, -0.1, 0, 0, 0, 0.1, 0.662081, -0.0141094, 0)
+shape = SubResource("BoxShape3D_453qv")
+
+[node name="ButtonMesh" type="MeshInstance3D" parent="ConfidenceButtons/Conf_wrong2/Conf_wrong2"]
+transform = Transform3D(0.1, 0, 0, 0, -0.1, 0, 0, 0, 0.1, 0.662081, -0.0141094, 0)
+material_override = SubResource("StandardMaterial3D_ai7b5")
+mesh = SubResource("BoxMesh_0mjy1")
+skeleton = NodePath("../../../..")
+
+[node name="Label3D" type="Label3D" parent="ConfidenceButtons/Conf_wrong2/Conf_wrong2/ButtonMesh"]
+transform = Transform3D(1.269, -1.1094e-07, -2.42428e-14, 0, 5.54698e-08, -6.344, -1.1094e-07, -1.269, -2.77305e-07, 0, -0.50317, 0.00330162)
+text = "probably
+wrong"
+
+[node name="Conf_wrong1" type="Node3D" parent="ConfidenceButtons"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0, 0)
+
+[node name="ButtonBase" type="MeshInstance3D" parent="ConfidenceButtons/Conf_wrong1"]
+transform = Transform3D(0.200875, 0, 0, 0, 1.00438, 0, 0, 0, 0.200875, -0.0159755, 0.0913399, 0.82673)
+material_override = ExtResource("1_cukr5")
+mesh = SubResource("BoxMesh_rs5fa")
+skeleton = NodePath("../../..")
+
+[node name="Conf_wrong1" type="Area3D" parent="ConfidenceButtons/Conf_wrong1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.678056, 1.07606, 0.82673)
+collision_layer = 0
+collision_mask = 131072
+monitoring = false
+script = ExtResource("3_3xu2g")
+button = NodePath("ButtonMesh")
+
+[node name="ButtonCollision" type="CollisionShape3D" parent="ConfidenceButtons/Conf_wrong1/Conf_wrong1"]
+transform = Transform3D(0.1, 0, 0, 0, -0.1, 0, 0, 0, 0.1, 0.662081, -0.0141094, 0)
+shape = SubResource("BoxShape3D_453qv")
+
+[node name="ButtonMesh" type="MeshInstance3D" parent="ConfidenceButtons/Conf_wrong1/Conf_wrong1"]
+transform = Transform3D(0.1, 0, 0, 0, -0.1, 0, 0, 0, 0.1, 0.662081, -0.0141094, 0)
+material_override = SubResource("StandardMaterial3D_ulel0")
+mesh = SubResource("BoxMesh_0mjy1")
+skeleton = NodePath("../../../..")
+
+[node name="Label3D" type="Label3D" parent="ConfidenceButtons/Conf_wrong1/Conf_wrong1/ButtonMesh"]
+transform = Transform3D(1.269, -1.1094e-07, -2.42428e-14, 0, 5.54698e-08, -6.344, -1.1094e-07, -1.269, -2.77305e-07, 0, -0.50317, 0.00330162)
+text = "maybe
+wrong"
+
+[node name="Conf_correct1" type="Node3D" parent="ConfidenceButtons"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0, 0)
+
+[node name="ButtonBase" type="MeshInstance3D" parent="ConfidenceButtons/Conf_correct1"]
+transform = Transform3D(0.200875, 0, 0, 0, 1.00438, 0, 0, 0, 0.200875, -0.0159755, 0.0913399, 0.82673)
+material_override = ExtResource("1_cukr5")
+mesh = SubResource("BoxMesh_rs5fa")
+skeleton = NodePath("../../..")
+
+[node name="Conf_correct1" type="Area3D" parent="ConfidenceButtons/Conf_correct1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.678056, 1.07606, 0.82673)
+collision_layer = 0
+collision_mask = 131072
+monitoring = false
+script = ExtResource("3_3xu2g")
+button = NodePath("ButtonMesh")
+
+[node name="ButtonCollision" type="CollisionShape3D" parent="ConfidenceButtons/Conf_correct1/Conf_correct1"]
+transform = Transform3D(0.1, 0, 0, 0, -0.1, 0, 0, 0, 0.1, 0.662081, -0.0141094, 0)
+shape = SubResource("BoxShape3D_453qv")
+
+[node name="ButtonMesh" type="MeshInstance3D" parent="ConfidenceButtons/Conf_correct1/Conf_correct1"]
+transform = Transform3D(0.1, 0, 0, 0, -0.1, 0, 0, 0, 0.1, 0.662081, -0.0141094, 0)
+material_override = SubResource("StandardMaterial3D_ai7b5")
+mesh = SubResource("BoxMesh_0mjy1")
+skeleton = NodePath("../../../..")
+
+[node name="Label3D" type="Label3D" parent="ConfidenceButtons/Conf_correct1/Conf_correct1/ButtonMesh"]
+transform = Transform3D(1.269, -1.1094e-07, -2.42428e-14, 0, 5.54698e-08, -6.344, -1.1094e-07, -1.269, -2.77305e-07, 0, -0.50317, 0.00330162)
+text = "maybe
+correct"
+
+[node name="Conf_correct2" type="Node3D" parent="ConfidenceButtons"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0)
+
+[node name="ButtonBase" type="MeshInstance3D" parent="ConfidenceButtons/Conf_correct2"]
+transform = Transform3D(0.200875, 0, 0, 0, 1.00438, 0, 0, 0, 0.200875, -0.0159755, 0.0913399, 0.82673)
+material_override = ExtResource("1_cukr5")
+mesh = SubResource("BoxMesh_rs5fa")
+skeleton = NodePath("../../..")
+
+[node name="Conf_correct2" type="Area3D" parent="ConfidenceButtons/Conf_correct2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.678056, 1.07606, 0.82673)
+collision_layer = 0
+collision_mask = 131072
+monitoring = false
+script = ExtResource("3_3xu2g")
+button = NodePath("ButtonMesh")
+
+[node name="ButtonCollision" type="CollisionShape3D" parent="ConfidenceButtons/Conf_correct2/Conf_correct2"]
+transform = Transform3D(0.1, 0, 0, 0, -0.1, 0, 0, 0, 0.1, 0.662081, -0.0141094, 0)
+shape = SubResource("BoxShape3D_453qv")
+
+[node name="ButtonMesh" type="MeshInstance3D" parent="ConfidenceButtons/Conf_correct2/Conf_correct2"]
+transform = Transform3D(0.1, 0, 0, 0, -0.1, 0, 0, 0, 0.1, 0.662081, -0.0141094, 0)
+material_override = SubResource("StandardMaterial3D_ai7b5")
+mesh = SubResource("BoxMesh_0mjy1")
+skeleton = NodePath("../../../..")
+
+[node name="Label3D" type="Label3D" parent="ConfidenceButtons/Conf_correct2/Conf_correct2/ButtonMesh"]
+transform = Transform3D(1.269, -1.1094e-07, -2.42428e-14, 0, 5.54698e-08, -6.344, -1.1094e-07, -1.269, -2.77305e-07, 0, -0.50317, 0.00330162)
+text = "probably
+correct"
+
+[node name="Conf_correct3" type="Node3D" parent="ConfidenceButtons"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0, 0)
+
+[node name="ButtonBase" type="MeshInstance3D" parent="ConfidenceButtons/Conf_correct3"]
+transform = Transform3D(0.200875, 0, 0, 0, 1.00438, 0, 0, 0, 0.200875, -0.0159755, 0.0913399, 0.82673)
+material_override = ExtResource("1_cukr5")
+mesh = SubResource("BoxMesh_rs5fa")
+skeleton = NodePath("../../..")
+
+[node name="Conf_correct3" type="Area3D" parent="ConfidenceButtons/Conf_correct3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.678056, 1.07606, 0.82673)
+collision_layer = 0
+collision_mask = 131072
+monitoring = false
+script = ExtResource("3_3xu2g")
+button = NodePath("ButtonMesh")
+
+[node name="ButtonCollision" type="CollisionShape3D" parent="ConfidenceButtons/Conf_correct3/Conf_correct3"]
+transform = Transform3D(0.1, 0, 0, 0, -0.1, 0, 0, 0, 0.1, 0.662081, -0.0141094, 0)
+shape = SubResource("BoxShape3D_453qv")
+
+[node name="ButtonMesh" type="MeshInstance3D" parent="ConfidenceButtons/Conf_correct3/Conf_correct3"]
+transform = Transform3D(0.1, 0, 0, 0, -0.1, 0, 0, 0, 0.1, 0.662081, -0.0141094, 0)
+material_override = SubResource("StandardMaterial3D_ai7b5")
+mesh = SubResource("BoxMesh_0mjy1")
+skeleton = NodePath("../../../..")
+
+[node name="Label3D" type="Label3D" parent="ConfidenceButtons/Conf_correct3/Conf_correct3/ButtonMesh"]
+transform = Transform3D(1.269, -1.1094e-07, -2.42428e-14, 0, 5.54698e-08, -6.344, -1.1094e-07, -1.269, -2.77305e-07, 0, -0.50317, 0.00330162)
+text = "certainly
+correct"
+
+[node name="ShowConfidenceButtons" type="AnimationPlayer" parent="ConfidenceButtons"]
+libraries = {
+"": SubResource("AnimationLibrary_vglxw")
+}
+
+[connection signal="button_pressed" from="AnswerButtons/SameButton/SameButton" to="." method="_on_same_button_button_pressed"]
+[connection signal="button_pressed" from="AnswerButtons/DifferentButton/DifferentButton" to="." method="_on_different_button_button_pressed"]
+[connection signal="animation_finished" from="AnswerButtons/HideResponseButtons" to="." method="_on_hide_response_buttons_animation_finished"]
+[connection signal="button_pressed" from="ConfidenceButtons/Conf_wrong3/Conf_wrong3" to="." method="_on_conf_wrong_3_button_pressed"]
+[connection signal="button_pressed" from="ConfidenceButtons/Conf_wrong2/Conf_wrong2" to="." method="_on_conf_wrong_2_button_pressed"]
+[connection signal="button_pressed" from="ConfidenceButtons/Conf_wrong1/Conf_wrong1" to="." method="_on_conf_wrong_1_button_pressed"]
+[connection signal="button_pressed" from="ConfidenceButtons/Conf_correct1/Conf_correct1" to="." method="_on_conf_correct_1_button_pressed"]
+[connection signal="button_pressed" from="ConfidenceButtons/Conf_correct2/Conf_correct2" to="." method="_on_conf_correct_2_button_pressed"]
+[connection signal="button_pressed" from="ConfidenceButtons/Conf_correct3/Conf_correct3" to="." method="_on_conf_correct_3_button_pressed"]
+[connection signal="animation_finished" from="ConfidenceButtons/ShowConfidenceButtons" to="." method="_on_show_confidence_buttons_animation_finished"]

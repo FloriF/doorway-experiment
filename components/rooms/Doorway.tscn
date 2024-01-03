@@ -1,8 +1,69 @@
-[gd_scene load_steps=2 format=3 uid="uid://bupf70pq0swvo"]
+[gd_scene load_steps=8 format=3 uid="uid://bupf70pq0swvo"]
 
 [ext_resource type="PackedScene" uid="uid://dqy6fd1ubxkko" path="res://assets/room-structure-basic/wall_door.glb" id="1_2tmrq"]
+[ext_resource type="Script" path="res://components/rooms/Doorway.gd" id="1_y3wyq"]
+[ext_resource type="PackedScene" uid="uid://oxfqbm16flx5" path="res://assets/room-structure-basic/door.glb" id="3_lcf2e"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g501y"]
+size = Vector3(2.1698, 2.61829, 3.1092)
+
+[sub_resource type="Animation" id="Animation_w5wm4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("door:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.568786, 0.0143156, 0.0531076)]
+}
+
+[sub_resource type="Animation" id="Animation_7s6x3"]
+resource_name = "open"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("door:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0.568786, 0.0143156, 0.0531076), Vector3(1.6649, 0.0143156, 0.0531076)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_l4ni1"]
+_data = {
+"RESET": SubResource("Animation_w5wm4"),
+"open": SubResource("Animation_7s6x3")
+}
 
 [node name="Doorway" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.187678, 0)
+script = ExtResource("1_y3wyq")
 
 [node name="wall_door" parent="." instance=ExtResource("1_2tmrq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0647092, 0, 0.0406427)
+
+[node name="door" parent="." instance=ExtResource("3_lcf2e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.568786, 0.0143156, 0.0531076)
+
+[node name="DetectPlayer" type="Area3D" parent="."]
+collision_mask = 524288
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DetectPlayer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0516968, 0.809143, 0.0630603)
+shape = SubResource("BoxShape3D_g501y")
+
+[node name="MoveDoor" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_l4ni1")
+}
+
+[connection signal="body_entered" from="DetectPlayer" to="." method="_on_detect_player_body_entered"]
+[connection signal="body_exited" from="DetectPlayer" to="." method="_on_detect_player_body_exited"]

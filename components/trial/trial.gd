@@ -7,9 +7,11 @@ var second_room : String = ""
 var trial_number : int = 0
 var number_of_objects : int = 0
 var object_contexts : Array = []
+var objects_changed : bool = false
+var switched_locations : String = ""
 
 # data collected for this trial
-var correctly_answered : bool = false #TODO
+var respone_objects_have_changed : bool = false #TODO
 var response_time : float = 0 #TODO
 var confidence : int = 0 #TODO
 var confidence_time : float = 0 #TODO
@@ -27,13 +29,14 @@ func _ready() -> void:
 	$ConfidenceTimer.wait_time = ExperimentLogic.MAX_CONFIDENCE_TIME
 	
 # this is called to set all necessary information for the current trial
-func set_conditions(c_room_1, c_doorway, c_room_2, c_number_of_objects, c_object_contexts) -> void:
+func set_conditions(c_room_1, c_doorway, c_room_2, c_number_of_objects, c_object_contexts, c_objects_changed) -> void:
 	# assign the values to the variables from above
 	first_room = c_room_1
 	doorway = c_doorway
 	second_room = c_room_2
 	number_of_objects = c_number_of_objects
 	object_contexts = c_object_contexts
+	objects_changed = c_objects_changed
 	
 # this should only be called for the current/next trial, since this instantiates all objects, rooms
 # and decoration objects within the rooms
@@ -42,7 +45,20 @@ func populateTrial() -> void:
 	_populateObjectLayout(number_of_objects, object_contexts)
 	# draw room variations
 	_populateRooms(first_room, second_room, doorway)
-	
+
+# remove all objects so they can be re-instanced later
+func depopulate() -> void:
+	# remove the doorway (if there is one!) and the two rooms with everything in them
+	if $TrialSetup/PositionDoorway.get_child_count() != 0:
+		$TrialSetup/PositionDoorway.get_child(0).queue_free()
+	$TrialSetup/PositionRoom1.get_child(0).queue_free()
+	$TrialSetup/PositionRoom2.get_child(0).queue_free()
+	# remove the objects by looping over all locations
+	for location in $ObjectLayout.get_children():
+		# if there is an object, delete it
+		if location.get_child_count() != 0:
+			location.get_child(0).queue_free()
+
 # draw random objects and put them at random positions
 func _populateObjectLayout(numberOfObjects, objectContexts) -> void:
 	# select random locations that should hold an object
@@ -102,6 +118,19 @@ func _populateRooms(room1, room2, door) -> void:
 	if door == "Doorway":
 			$TrialSetup/PositionDoorway.add_child(load("res://components/rooms/Doorway.tscn").instantiate())
 	# else do nothing
+	
+	# next, add the buttons to the rooms
+	var button_show_items = load("res://components/item-display/button_show_items.tscn")
+	var response_buttons = load("res://components/item-display/response_buttons.tscn")
+	# buttons to show in room 1
+	$TrialSetup/PositionRoom1.get_child(0).get_node("ButtonLocation").add_child(button_show_items.instantiate())
+	# response buttons in room 2
+	$TrialSetup/PositionRoom2.get_child(0).get_node("ButtonLocation").add_child(response_buttons.instantiate())
+	# switch two objects in the second room, if this is the condition
+	if objects_changed:
+		# get the response buttons node and call the switch function in that script
+		switched_locations = $TrialSetup/PositionRoom2.get_child(0).get_node("ButtonLocation").get_child(0).switch()
+
 
 func getTrialSaveData() -> Dictionary:
 	# general trial data
@@ -111,8 +140,10 @@ func getTrialSaveData() -> Dictionary:
 		"first_room": first_room,
 		"doorway": doorway,
 		"second_room": second_room,
+		"objects_changed": objects_changed,
+		"switched_locations" : switched_locations,
 		# collected data
-		"correctly_answered": correctly_answered,
+		"respone_objects_have_changed": respone_objects_have_changed,
 		"response_time": response_time,
 		"confidence": confidence,
 		"confidence_time": confidence_time,
@@ -134,3 +165,92 @@ func getTrialSaveData() -> Dictionary:
 	saveData.merge({"first_room_variant": $TrialSetup/PositionRoom1.get_child(0).name,
 					"second_room_variant": $TrialSetup/PositionRoom2.get_child(0).name})
 	return saveData
+
+func saveTrial() -> void:
+	var currentTrialSaveData = getTrialSaveData()
+	# make JSON string (sort: false, full_precision: true)
+	var currentTrialSaveDataJSON = JSON.stringify(currentTrialSaveData, "", false, true)
+	print(currentTrialSaveDataJSON)
+	# actually save the data to the save file
+	var file = FileAccess.open(ExperimentLogic.saveFile, FileAccess.READ_WRITE)
+	# jump to end of file
+	file.seek_end(-1)
+	# write data to file
+	file.store_line(currentTrialSaveDataJSON)
+	# add a new line
+	file.store_line("\n")
+	# (not necessary) close file
+	file.close()
+
+func validTrial() -> void:
+	# save trial data to file
+	saveTrial()
+	# LiveData information for average correctness
+	if objects_changed == respone_objects_have_changed:
+		ExperimentLogic.correct_trials += 1
+	# wait to let button movement animations finish (XR interactable areas buttons)
+	await get_tree().create_timer(2.0).timeout
+	# move the trial to the completed trial group
+	self.reparent(ExperimentLogic.get_node("Trials").get_node("CompletedTrials"))
+	endTrial("valid")
+	
+func errorTrial(error_str: String = "") -> void:
+	# save the reason for error
+	error_info = error_str
+	# increase the repetitions counter for this trial
+	repetition += 1
+	# track the number of trials that have to be repeated for monitoring during experiment
+	ExperimentLogic.number_of_error_trials += 1
+	# save trial data to file
+	saveTrial()
+	# move the trial to the error trial group
+	self.reparent(ExperimentLogic.get_node("Trials").get_node("ErrorTrials"))
+	endTrial("error")
+	
+# do all the stuff that is needed after the current trial ended and has been moved
+func endTrial(success : String = "") -> void:
+	# stop and reset all timers for this trial, so they start fresh when the trial is repeated
+	stopAllTimers()
+	# prepare the next trial by picking a random one
+	ExperimentLogic.setNextTrial(ExperimentLogic.pickRandomTrial())
+	# instantiate the objects for this next trial
+	ExperimentLogic.getNextTrial().populateTrial()
+	# move the player node to the next trial
+	ExperimentLogic.currentPlayerNode.reparent(ExperimentLogic.getNextTrial())
+	# make this trial the current trial
+	ExperimentLogic.getNextTrial().reparent(ExperimentLogic.get_node("Trials").get_node("CurrentTrial"))
+	
+	if success == "valid":
+		# delete the nodes so they do not accidentally appear
+		for node in self.get_children():
+			node.queue_free()
+	else:
+		# the trial will be repeated, so we need to remove all objects
+		# the trial will be populated again when it is picked to be presented
+		self.depopulate()
+	
+	# now everything is done, so we can start the next trial
+	ExperimentLogic.runCurrentTrial()
+	
+func stopAllTimers() -> void:
+	if get_node_or_null("MovementTimer") != null:
+		$MovementTimer.stop()
+	if get_node_or_null("MovementTimer") != null:
+		$ResponseTimer.stop()
+	if get_node_or_null("MovementTimer") != null:
+		$ConfidenceTimer.stop()
+	
+
+func _on_movement_timer_timeout() -> void:
+	# find the response buttons and let them tell the display to open
+	$TrialSetup/PositionRoom2.get_child(0).get_node("ButtonLocation").get_child(0).presentObjectsAfterTimer()
+	# TODO make error trial if participant is not in area (moved too slow)
+	# if no error occured, then start response timer
+	$ResponseTimer.start()
+
+func _on_response_timer_timeout() -> void:
+	errorTrial("slowResponse")
+
+
+func _on_confidence_timer_timeout() -> void:
+	errorTrial("slowConfidence")

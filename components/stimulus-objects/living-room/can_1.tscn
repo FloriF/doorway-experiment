@@ -1,5 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://8eqgrd2rqvr6"]
-
-[ext_resource type="PackedScene" uid="uid://bahovpslighk2" path="res://assets/small_objects/can_1.glb" id="1_2w5e4"]
-
-[node name="can_1" instance=ExtResource("1_2w5e4")]

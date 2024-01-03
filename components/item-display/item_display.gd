@@ -1,5 +1,7 @@
 extends Node3D
 
+
+
 # this is called by the button press
 func present_objects() -> void:
 	# open the lid (takes 1 sec)
@@ -13,11 +15,8 @@ func present_objects() -> void:
 func open_lid() -> void:
 	$item_display_lid/LidMovement.play("opening")
 	
-func close_lid() -> void:
+func close_lid(speed: float = 1.0) -> void:
 	$item_display_lid/LidMovement.play_backwards("opening")
-
-func getObjectPositionOnDisplay() -> Node:
-	return $item_display_base/ObjectPositionOnItemDisplay
 
 func _on_timer_timeout() -> void:
 	close_lid()

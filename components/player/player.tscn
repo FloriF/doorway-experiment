@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://b1vfiloxidu7n"]
+[gd_scene load_steps=11 format=3 uid="uid://b1vfiloxidu7n"]
 
 [ext_resource type="Script" path="res://components/player/player.gd" id="1_3bv4k"]
 [ext_resource type="PackedScene" uid="uid://cc6ngdqie8o8c" path="res://addons/godot-xr-tools/effects/vignette.tscn" id="1_dl8c6"]
@@ -9,42 +9,6 @@
 [ext_resource type="PackedScene" uid="uid://cigx2gnf4tg4d" path="res://addons/godot-xr-tools/hands/scenes/highpoly/right_fullglove_physics_hand.tscn" id="4_vnvv2"]
 [ext_resource type="PackedScene" uid="uid://bl2nuu3qhlb5k" path="res://addons/godot-xr-tools/functions/movement_direct.tscn" id="5_0a534"]
 [ext_resource type="Script" path="res://components/player/MovementTriggerForward.gd" id="6_k1uqo"]
-
-[sub_resource type="Animation" id="Animation_2q454"]
-resource_name = "fade_to_black"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("FadeVignette:radius")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [5.0, -0.065]
-}
-
-[sub_resource type="Animation" id="Animation_74gjh"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("FadeVignette:radius")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [-0.065]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_xgqcv"]
-_data = {
-"RESET": SubResource("Animation_74gjh"),
-"fade_to_black": SubResource("Animation_2q454")
-}
 
 [sub_resource type="Resource" id="Resource_g61qw"]
 script = ExtResource("4_2uau1")
@@ -72,15 +36,9 @@ metadata/_edit_group_ = true
 auto_rotation_limit = 5.0
 auto_velocity_limit = 2.0
 
-[node name="FadeVignette" parent="XROrigin3D/XRCamera3D" instance=ExtResource("1_dl8c6")]
-radius = -0.065
-auto_rotation_limit = 500.0
-auto_velocity_limit = 500.0
-
-[node name="FadeAnimation" type="AnimationPlayer" parent="XROrigin3D/XRCamera3D"]
-libraries = {
-"": SubResource("AnimationLibrary_xgqcv")
-}
+[node name="Timer" type="Timer" parent="XROrigin3D/XRCamera3D"]
+wait_time = 2.0
+one_shot = true
 
 [node name="PlayerBody" parent="XROrigin3D" instance=ExtResource("2_hg512")]
 physics = SubResource("Resource_g61qw")
@@ -112,4 +70,5 @@ strafe = true
 script = ExtResource("6_k1uqo")
 max_speed = 2.5
 
+[connection signal="timeout" from="XROrigin3D/XRCamera3D/Timer" to="." method="_on_timer_timeout"]
 [connection signal="button_pressed" from="XROrigin3D/XRControllerLeft" to="." method="_on_xr_controller_left_button_pressed"]

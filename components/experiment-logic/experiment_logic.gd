@@ -2,13 +2,15 @@ extends Node
 
 # set and changed before the experiment
 var participantID : int = 0
-var newTrial = load("res://components/experiment-logic/trial.tscn")
-var trial_number : int = 1
+var newTrial = load("res://components/trial/trial.tscn")
+var trial_number : int = 0
+var correct_trials : int = 0
 var total_number_of_trials : int = 0
 var number_of_error_trials : int = 0
 
 # player scene
 var player = preload("res://components/player/player.tscn").instantiate()
+var currentPlayerNode : Node # this is the node that we move around
 
 # lists of object paths and names and rooms
 var stimulusObjects_LivingRoom : Array = []
@@ -36,7 +38,7 @@ var saveFile : String = ""
 func _ready() -> void:
 	# initialize random number generator
 	randomize()
-	# seed(1) # for testing purposes only!
+	seed(1) # for testing purposes only!
 	# prepare lists of possible objects to present
 	stimulusObjects_LivingRoom = _getStimulusObjects("res://components/stimulus-objects/living-room/")
 	stimulusObjects_Workshop = _getStimulusObjects("res://components/stimulus-objects/workshop/")
@@ -97,17 +99,18 @@ func prepareTrials() -> void:
 			for second_room in ROOM_CONTEXT:
 				# create multiple repetitions of each condition combination
 				for i in range(REPETITIONS):
-					# create a new trial
-					var addedTrial = newTrial.instantiate()
-					# create an array containing the conditions where the objects come from
-					# TODO for now, this is just both. could be introduced as a balanced experimental
-					# condition, but this results in more trials necessary (3x: only Livg., only Works., both)
-					var objectContexts : Array = ["LivingRoom", "Workshop"]
-					# set this trial's conditions
-					addedTrial.set_conditions(first_room, doorway, second_room, NUMBER_OF_OBJECTS, objectContexts)
-					# add this trial to the list of future trials
-					# 'true' forces a readable name (Trial7 instead of @Node485 or whatever)
-					$Trials/FutureTrials.add_child(addedTrial, true)
+					for objects_changed in [true, false]:
+						# create a new trial
+						var addedTrial = newTrial.instantiate()
+						# create an array containing the conditions where the objects come from
+						# TODO for now, this is just both. could be introduced as a balanced experimental
+						# condition, but this results in more trials necessary (3x: only Livg., only Works., both)
+						var objectContexts : Array = ["LivingRoom", "Workshop"]
+						# set this trial's conditions
+						addedTrial.set_conditions(first_room, doorway, second_room, NUMBER_OF_OBJECTS, objectContexts, objects_changed)
+						# add this trial to the list of future trials
+						# 'true' forces a readable name (Trial7 instead of @Node485 or whatever)
+						$Trials/FutureTrials.add_child(addedTrial, true)
 	# finally, also for tracking purposes, give the amount of trials created
 	total_number_of_trials = $Trials/FutureTrials.get_child_count()
 
@@ -141,11 +144,16 @@ func pickRandomTrial() -> Node:
 # run the current trial
 func runCurrentTrial() -> void:
 	var currentTrial = getCurrentTrial()
+	# increase trial counter
+	trial_number += 1
+	currentTrial.trial_number = trial_number 
+	# move the player to the current trial
+	var currentStartPosition = getCurrentTrial().get_node("TrialSetup").get_node("PlayerStartPosition")
+	currentPlayerNode.reparent(currentStartPosition)
+	# correctly position and rotate the player (use global, in relation to the world, to make managing easier)
+	currentPlayerNode.global_position = currentStartPosition.global_position
+	currentPlayerNode.global_rotation = currentStartPosition.global_rotation
 	
-	#TODO
-	#TODO
-	#TODO
-
 
 # these functions can be called by buttons to get the trial information
 func getCurrentTrial() -> Node:
@@ -181,69 +189,6 @@ func _getStimulusObjects(pathToObjectFolder) -> Array:
 	return listOfObjects
 
 func endExperiment() -> void:
-	get_tree().root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
-	get_tree().quit()
+	ExperimentLogic.currentPlayerNode.reparent(get_tree().get_node("EmptyScene").get_node("PlayerStartPosition"))
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-########################### all stuff below should be moved to the trial node
-
-# TODO there should be more happening on the trial start!
-func startCurrentTrial() -> void:
-	var currentTrial = getCurrentTrial()
-	pass
-	
-
-# trial has to be repeated
-func errorTrial(error_info) -> void:
-	var currentTrial = getCurrentTrial()
-	# write reason for error into trial data
-	currentTrial.error_info = error_info
-	# save the data for this trial
-	saveTrial(currentTrial)
-	# increase counter for trial presentations
-	currentTrial.repetition += 1
-	# track the number of trials that have to be repeated for monitoring during experiment
-	number_of_error_trials += 1
-	# stop trial timer
-	currentTrial.stopTimer()
-	# move to error group
-	currentTrial.reparent($Trials/ErrorTrials)
-
-	
-func saveTrial(currentTrial) -> void:
-	var currentTrialSaveData = currentTrial.getTrialSaveData()
-	# make JSON string (sort: false, full_precision: true)
-	var currentTrialSaveDataJSON = JSON.stringify(currentTrialSaveData, "", false, true)
-	print(currentTrialSaveDataJSON)
-	# actually save the data to the save file
-	var file = FileAccess.open(saveFile, FileAccess.READ_WRITE)
-	# jump to end of file
-	file.seek_end(-1)
-	# write data to file
-	file.store_line(currentTrialSaveDataJSON)
-	# add a new line
-	file.store_line("\n")
-	# (not necessary) close file
-	file.close()
-
-# trial has been completed successfully
-func completeCurrentTrial() -> void:
-	var currentTrial = getCurrentTrial()
-	# save the data for this trial
-	saveTrial(currentTrial)
-	# stop the trial timer
-	currentTrial.stopTimer()
-	# there should only ever be one trial in here, so we get this trial and move it to the completed group
-	currentTrial.reparent($Trials/CompletedTrials)
-
 

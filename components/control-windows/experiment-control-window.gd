@@ -5,18 +5,11 @@ func _ready() -> void:
 	%ParticipantID.text = str(ExperimentLogic.participantID).pad_zeros(3)
 	%NumberOfTrials.text = str(ExperimentLogic.total_number_of_trials).pad_zeros(3)
 
-## @experimental #TODO this is just a testing button
-func _on_button_pressed() -> void:
-	var trial = ExperimentLogic.pickRandomTrial()
-	ExperimentLogic.setCurrentTrial(trial)
-	ExperimentLogic.startCurrentTrial()
-	#await get_tree().create_timer(4.0).timeout
-	#ExperimentLogic.completeCurrentTrial()
-
-
-func _on_button_2_pressed() -> void:
-	var trial = ExperimentLogic.pickRandomTrial()
-	ExperimentLogic.setCurrentTrial(trial)
-	ExperimentLogic.startCurrentTrial()
-	#await get_tree().create_timer(4.0).timeout
-	ExperimentLogic.errorTrial("debug_button")
+func _on_StartFirstTrial_pressed() -> void:
+	# move the prepared trial to current
+	var nextTrial = ExperimentLogic.getNextTrial()
+	var currentTrialNode = ExperimentLogic.get_node("Trials").get_node("CurrentTrial") 
+	nextTrial.reparent(currentTrialNode)
+	# run the trial, e.g., move player into it
+	ExperimentLogic.runCurrentTrial()
+	$StartFirstTrial.disabled = true

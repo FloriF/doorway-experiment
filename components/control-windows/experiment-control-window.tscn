@@ -75,6 +75,14 @@ horizontal_alignment = 3
 [node name="ProgressBar" type="ProgressBar" parent="CenterVertically/LiveData"]
 layout_mode = 2
 
+[node name="Label" type="Label" parent="CenterVertically/LiveData"]
+layout_mode = 2
+text = "Current Performance (correct responses)"
+horizontal_alignment = 1
+
+[node name="PerformanceCorrect" type="ProgressBar" parent="CenterVertically/LiveData"]
+layout_mode = 2
+
 [node name="Line" type="HSeparator" parent="CenterVertically"]
 layout_mode = 2
 
@@ -125,21 +133,18 @@ layout_mode = 2
 text = "Re-calibrate height"
 script = ExtResource("5_2bvlu")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
-offset_right = 40.0
+[node name="StartFirstTrial" type="Button" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -61.5
+offset_right = 61.5
 offset_bottom = 40.0
-
-[node name="Button" type="Button" parent="HBoxContainer"]
-layout_mode = 2
-text = "random"
-
-[node name="Button2" type="Button" parent="HBoxContainer"]
-layout_mode = 2
-text = "error trial"
+grow_horizontal = 2
+text = "Start First Trial"
 
 [connection signal="toggled" from="CenterVertically/UserControls/VignetteToggle" to="CenterVertically/UserControls/VignetteToggle" method="_on_toggled"]
 [connection signal="toggled" from="CenterVertically/ExperimenterControls/TrackpadToggle" to="CenterVertically/ExperimenterControls/TrackpadToggle" method="_on_toggled"]
 [connection signal="toggled" from="CenterVertically/ExperimenterControls/TriggerToggle" to="CenterVertically/ExperimenterControls/TriggerToggle" method="_on_toggled"]
 [connection signal="pressed" from="CenterVertically/ExperimenterControls/HeightCalibration" to="CenterVertically/ExperimenterControls/HeightCalibration" method="_on_pressed"]
-[connection signal="pressed" from="HBoxContainer/Button" to="." method="_on_button_pressed"]
-[connection signal="pressed" from="HBoxContainer/Button2" to="." method="_on_button_2_pressed"]
+[connection signal="pressed" from="StartFirstTrial" to="." method="_on_StartFirstTrial_pressed"]
