@@ -3,7 +3,7 @@
 [node name="TrialSetup" type="Node3D"]
 
 [node name="PlayerStartPosition" type="Marker3D" parent="."]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -2.32662, 0.986368, -2.20748)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -2.32662, 0.284243, -2.20748)
 gizmo_extents = 0.5
 
 [node name="PositionRoom1" type="Marker3D" parent="."]
@@ -15,4 +15,4 @@ transform = Transform3D(-0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, -0.5, 4.33641,
 gizmo_extents = 1.0
 
 [node name="PositionDoorway" type="Marker3D" parent="."]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0.0490775, 0.166906, -2.29719)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0.0490775, -0.0448356, -2.29719)

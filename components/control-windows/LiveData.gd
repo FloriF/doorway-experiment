@@ -12,5 +12,6 @@ func _process(delta: float) -> void:
 	$ProgressBar.value = ExperimentLogic.trial_number - 1
 	$ProgressBar.max_value = total_trials_with_error
 	
+	# current performance
 	$PerformanceCorrect.max_value = ExperimentLogic.trial_number - 1
 	$PerformanceCorrect.value = ExperimentLogic.correct_trials

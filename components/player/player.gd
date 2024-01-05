@@ -1,6 +1,11 @@
 extends Node3D
 
+var teleport_transform
+
+# initialize XR/VR
 var xr_interface: XRInterface
+
+###################################################################################################
 
 func _ready() -> void:
 	# default code to make XR work
@@ -16,41 +21,53 @@ func _ready() -> void:
 	else:
 		print("OpenXR not initialized, please check if your headset is connected")
 
-
 func fadeToBlack() -> void:
-	$XROrigin3D/XRCamera3D/FadeAnimation.play("fade_to_black")
+	$XRCamera3D/FadeAnimation.play("fade_to_black")
 	# give the player some time in the dark, during which the next trial will be prepared
-	$XROrigin3D/XRCamera3D/Timer.start()
+	$XRCamera3D/Timer.start()
 	
 func fadeToScene() -> void:
-	$XROrigin3D/XRCamera3D/FadeAnimation.play_backwards("fade_to_black")
+	$XRCamera3D/FadeAnimation.play_backwards("fade_to_black")
+
+# experimenter triggers the calibrate height function of the xr toolbox
+func expCalibrateHeight() -> void:
+	# set the flag to true, so the next time the player is moved in any way, the calibration is triggered
+	# see xr toolbox documentation on PlayerBody, player_calibrate_height 
+	$PlayerBody.player_calibrate_height = true
+
+func toggle_vignette_visibility() -> void:
+	# set visibility
+	$XRCamera3D/Vignette.visible = not $XRCamera3D/Vignette.visible
+	# update toggle button
+	get_tree().call_group("vignetteToggle", "set_pressed_no_signal", $XRCamera3D/Vignette.visible)
+	
+# toggle trackpad/joystick movement option
+func toggle_trackpad(new_state: bool) -> void:
+	$XRControllerRight/MovementDirectJoystick.enabled = new_state
+	
+# toggle trigger movement option
+func toggle_triggers(new_state: bool) -> void:
+	$XRControllerLeft/MovementTriggerBackward.enabled = new_state
+	$XRControllerRight/MovementTriggerForward.enabled = new_state
+
+# call the teleport function of the xr tools player body
+# NOTE the actual teleportation happens on the timer timeout!
+func initiate_teleport(target_transform) -> void:
+	# fade to black
+	$XRCamera3D/FadeAnimation.play("fade2black")
+	# start timer so fade animation finishes before player is teleported
+	$XRCamera3D/TeleportTimer.start()
+	# set teleport location
+	teleport_transform = target_transform
+
+###################################################################################################
 
 func _on_xr_controller_left_button_pressed(name: String) -> void:
 	if name == "ax_button":
 		toggle_vignette_visibility()
 		
-# experimenter triggers the calibrate height function of the xr toolbox
-func expCalibrateHeight() -> void:
-	# set the flag to true, so the next time the player is moved in any way, the calibration is triggered
-	# see xr toolbox documentation on PlayerBody, player_calibrate_height 
-	$XROrigin3D/PlayerBody.player_calibrate_height = true
-
-
-func toggle_vignette_visibility() -> void:
-	# set visibility
-	$XROrigin3D/XRCamera3D/Vignette.visible = not $XROrigin3D/XRCamera3D/Vignette.visible
-	# update toggle button
-	get_tree().call_group("vignetteToggle", "set_pressed_no_signal", $XROrigin3D/XRCamera3D/Vignette.visible)
-	
-# toggle trackpad/joystick movement option
-func toggle_trackpad(new_state: bool) -> void:
-	$XROrigin3D/XRControllerRight/MovementDirectJoystick.enabled = new_state
-	
-# toggle trigger movement option
-func toggle_triggers(new_state: bool) -> void:
-	$XROrigin3D/XRControllerLeft/MovementTriggerBackward.enabled = new_state
-	$XROrigin3D/XRControllerRight/MovementTriggerForward.enabled = new_state
-
-
-func _on_timer_timeout() -> void:
-	fadeToScene()
+func _on_teleport_timer_timeout() -> void:
+	# teleport the player
+	$PlayerBody.teleport(teleport_transform)
+	# fade back to scene
+	$XRCamera3D/FadeAnimation.play_backwards("fade2black")

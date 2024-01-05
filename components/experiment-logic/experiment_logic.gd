@@ -9,7 +9,6 @@ var total_number_of_trials : int = 0
 var number_of_error_trials : int = 0
 
 # player scene
-var player = preload("res://components/player/player.tscn").instantiate()
 var currentPlayerNode : Node # this is the node that we move around
 
 # lists of object paths and names and rooms
@@ -24,9 +23,20 @@ const DOORWAY_CONDITION = ["Doorway", "NoDoorway"]
 const REPETITIONS = 1 # how many times each condition is repeated
 const NUMBER_OF_OBJECTS = 5 # how many of the 7 locations should contain an object?
 
-const MAX_MOVEMENT_TIME = 10 # maximum time allowed to move between item displays
+# experiment timings
+const MAX_MOVEMENT_TIME = 8 # maximum time allowed to move between item displays
+# this is the time from initital button press until the lid of the second display starts opening
+# so this INCLUDES the total initial presentation time (2*DISPLAY_OPENING + DISPLAY_STAY times) 
+
 const MAX_RESPONSE_TIME = 5 # maximum time to give a response after seeing the objects
 const MAX_CONFIDENCE_TIME = 5 # maximum time to give a confidence response
+
+const DISPLAY_OPENING_TIME = 1 # seconds it takes from start to end of display lid opening animation
+const DISPLAY_STAY_TIME = 1 # seconds the opened display stays as it is
+# so with the above two values at 1, the total presentation time of the objects is:
+#   1 second (objects at least partially visible) opening animation
+# + 1 second (objects completely visible) stay open value
+# + 1 second (objects at least partially visible) closing animation
 
 # next to the final executable, the datafiles will be created
 const SAVE_DATA_PATH :String = "./data_"
@@ -130,31 +140,24 @@ func pickRandomTrial() -> Node:
 	# return the Trial node
 	return NodeWithTrials.get_child(randomTrialID)
 
-# moves a trial into the current trial node and increases the trial counter
-# NOTE this does not start the trial!
-# ALERT this should now be handled differently, since we have a NextTrial
-#func setCurrentTrial(TrialNode) -> void:
-	## move the given trial to the currentTrial group
-	#TrialNode.reparent($Trials/CurrentTrial)
-	## give this trial a number
-	#TrialNode.trial_number = trial_number
-	## increase the trial number counter
-	#trial_number += 1
-
-# run the current trial
-func runCurrentTrial() -> void:
+# add the player node to the current trial
+func addPlayerToCurrentTrial() -> void:
 	var currentTrial = getCurrentTrial()
 	# increase trial counter
 	trial_number += 1
-	currentTrial.trial_number = trial_number 
+	currentTrial.trial_number = trial_number
+	# if this is the first trial, add the player node to the gamestate
+	# TODO this needs to be changed if training trials run beforehand
+	if trial_number == 1:
+		add_child(ExperimentLogic.currentPlayerNode)
+		# have to remove the toplevel setting so we can teleport the player easier
+		ExperimentLogic.currentPlayerNode.get_node("PlayerBody").set_as_top_level(false)
+	# get current start position marker
+	var currentStartPosition : Marker3D = getCurrentTrial().get_node("TrialSetup").get_node("PlayerStartPosition") 
 	# move the player to the current trial
-	var currentStartPosition = getCurrentTrial().get_node("TrialSetup").get_node("PlayerStartPosition")
-	currentPlayerNode.reparent(currentStartPosition)
-	# correctly position and rotate the player (use global, in relation to the world, to make managing easier)
-	currentPlayerNode.global_position = currentStartPosition.global_position
-	currentPlayerNode.global_rotation = currentStartPosition.global_rotation
+	currentPlayerNode.initiate_teleport(currentStartPosition.global_transform)
+	currentPlayerNode.reparent(currentStartPosition, false)
 	
-
 # these functions can be called by buttons to get the trial information
 func getCurrentTrial() -> Node:
 	return $Trials/CurrentTrial.get_child(0)
@@ -189,6 +192,9 @@ func _getStimulusObjects(pathToObjectFolder) -> Array:
 	return listOfObjects
 
 func endExperiment() -> void:
-	ExperimentLogic.currentPlayerNode.reparent(get_tree().get_node("EmptyScene").get_node("PlayerStartPosition"))
+	# Thanos Snap which just ends everything
+	# ALERT this does not ensure everything is saved! this should be done if there is a risk of the
+	# experiment crashing during execution and thus losing the gamestate
+	get_tree().quit()
 	
 

@@ -20,19 +20,8 @@ wait_time = 5.0
 one_shot = true
 
 [node name="TrialSetup" parent="." instance=ExtResource("2_ra5vj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.32792, -0.972863, 2.22916)
 metadata/_edit_group_ = true
-
-[node name="PlayerStartPosition" parent="TrialSetup" index="0"]
-transform = Transform3D(-5.96046e-08, 0, 1, 0, 1, 0, -1, 0, -5.96046e-08, -1.76382, 2.03022, 0.0600371)
-
-[node name="PositionRoom1" parent="TrialSetup" index="1"]
-transform = Transform3D(0.5, 0, 0.866025, 0, 1, 0, -0.866025, 0, 0.5, -3.76382, -0.192066, 0.0600371)
-
-[node name="PositionRoom2" parent="TrialSetup" index="2"]
-transform = Transform3D(-0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, -0.5, 4.89921, -0.192066, 0.039047)
-
-[node name="PositionDoorway" parent="TrialSetup" index="3"]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0.611879, -0.0251598, -0.0296729)
 
 [node name="ObjectLayout" parent="." instance=ExtResource("3_r21qd")]
 visible = false

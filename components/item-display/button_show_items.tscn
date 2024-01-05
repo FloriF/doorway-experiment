@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://ra44gbfislug"]
+[gd_scene load_steps=11 format=3 uid="uid://ra44gbfislug"]
 
 [ext_resource type="Script" path="res://components/item-display/button_show_items.gd" id="1_dqsa4"]
 [ext_resource type="Material" uid="uid://e81bkoiygi7b" path="res://assets/item-display/item_display_material.tres" id="1_wu7dn"]
@@ -15,8 +15,45 @@ cull_mode = 2
 vertex_color_use_as_albedo = true
 albedo_color = Color(0, 0, 1, 1)
 roughness = 0.56
+emission = Color(0, 0, 1, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_0mjy1"]
+
+[sub_resource type="Animation" id="Animation_obwnl"]
+resource_name = "hide"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, -1.5, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_4haut"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_28wey"]
+_data = {
+"RESET": SubResource("Animation_4haut"),
+"hide": SubResource("Animation_obwnl")
+}
 
 [node name="ButtonShowItems" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.399704, 0)
@@ -46,6 +83,11 @@ transform = Transform3D(0.1, 0, 0, 0, -0.1, 0, 0, 0, 0.1, 0.662081, -0.0141094, 
 material_override = SubResource("StandardMaterial3D_s87sg")
 mesh = SubResource("BoxMesh_0mjy1")
 skeleton = NodePath("../../..")
+
+[node name="HideButton" type="AnimationPlayer" parent="Button"]
+libraries = {
+"": SubResource("AnimationLibrary_28wey")
+}
 
 [node name="ItemDisplayLocation" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0159755, 0.809389, -0.934783)

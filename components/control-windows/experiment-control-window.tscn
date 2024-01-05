@@ -1,11 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://b0gmen7vjw4wd"]
+[gd_scene load_steps=4 format=3 uid="uid://b0gmen7vjw4wd"]
 
 [ext_resource type="Script" path="res://components/control-windows/experiment-control-window.gd" id="1_nor5n"]
 [ext_resource type="Script" path="res://components/control-windows/VignetteToggle.gd" id="1_wl0dw"]
-[ext_resource type="Script" path="res://components/control-windows/TrackpadToggle.gd" id="2_gmupn"]
 [ext_resource type="Script" path="res://components/control-windows/LiveData.gd" id="2_kk16u"]
-[ext_resource type="Script" path="res://components/control-windows/TriggerToggle.gd" id="3_071nj"]
-[ext_resource type="Script" path="res://components/control-windows/HeightCalibration.gd" id="5_2bvlu"]
 
 [node name="ExperimentControlWindow" type="Window" groups=["controlWindow"]]
 title = "Doorway Experiment - Control"
@@ -120,18 +117,19 @@ layout_mode = 2
 layout_mode = 2
 button_pressed = true
 text = "Use trackpad/joystick movement"
-script = ExtResource("2_gmupn")
 
 [node name="TriggerToggle" type="CheckButton" parent="CenterVertically/ExperimenterControls"]
 layout_mode = 2
 button_pressed = true
 text = "Use trigger movement"
-script = ExtResource("3_071nj")
 
 [node name="HeightCalibration" type="Button" parent="CenterVertically/ExperimenterControls"]
 layout_mode = 2
 text = "Re-calibrate height"
-script = ExtResource("5_2bvlu")
+
+[node name="TeleportPlayer" type="Button" parent="CenterVertically/ExperimenterControls"]
+layout_mode = 2
+text = "Teleport Player back into current Trial"
 
 [node name="StartFirstTrial" type="Button" parent="."]
 anchors_preset = 5
@@ -144,7 +142,8 @@ grow_horizontal = 2
 text = "Start First Trial"
 
 [connection signal="toggled" from="CenterVertically/UserControls/VignetteToggle" to="CenterVertically/UserControls/VignetteToggle" method="_on_toggled"]
-[connection signal="toggled" from="CenterVertically/ExperimenterControls/TrackpadToggle" to="CenterVertically/ExperimenterControls/TrackpadToggle" method="_on_toggled"]
-[connection signal="toggled" from="CenterVertically/ExperimenterControls/TriggerToggle" to="CenterVertically/ExperimenterControls/TriggerToggle" method="_on_toggled"]
-[connection signal="pressed" from="CenterVertically/ExperimenterControls/HeightCalibration" to="CenterVertically/ExperimenterControls/HeightCalibration" method="_on_pressed"]
+[connection signal="toggled" from="CenterVertically/ExperimenterControls/TrackpadToggle" to="." method="_on_trackpad_toggle_toggled"]
+[connection signal="toggled" from="CenterVertically/ExperimenterControls/TriggerToggle" to="." method="_on_trigger_toggle_toggled"]
+[connection signal="pressed" from="CenterVertically/ExperimenterControls/HeightCalibration" to="." method="_on_height_calibration_pressed"]
+[connection signal="pressed" from="CenterVertically/ExperimenterControls/TeleportPlayer" to="." method="_on_teleport_player_pressed"]
 [connection signal="pressed" from="StartFirstTrial" to="." method="_on_StartFirstTrial_pressed"]

@@ -4,6 +4,8 @@ extends Node3D
 # preload makes sure the item display is already in memory
 var connectedItemDisplay := preload("res://components/item-display/item_display.tscn").instantiate()
 
+###################################################################################################
+
 # as soon as the button is spawned, create the corresponding item display
 func _ready() -> void:
 	# instantiate the item display
@@ -14,6 +16,19 @@ func _ready() -> void:
 	objects.visible = true
 	# add the objects as child of the display, to get the corretc position
 	$ItemDisplayLocation.get_child(0).add_child(objects)
+	# reset all button's glow effects
+	$AnswerButtons/SameButton/SameButton/ButtonMesh.material_override.emission_enabled = false
+	$AnswerButtons/DifferentButton/DifferentButton/ButtonMesh.material_override.emission_enabled = false
+	
+	$ConfidenceButtons/Conf_wrong3/Conf_wrong3/ButtonMesh.material_override.emission_enabled = false
+	$ConfidenceButtons/Conf_wrong2/Conf_wrong2/ButtonMesh.material_override.emission_enabled = false
+	$ConfidenceButtons/Conf_wrong1/Conf_wrong1/ButtonMesh.material_override.emission_enabled = false
+	$ConfidenceButtons/Conf_correct1/Conf_correct1/ButtonMesh.material_override.emission_enabled = false
+	$ConfidenceButtons/Conf_correct2/Conf_correct2/ButtonMesh.material_override.emission_enabled = false
+	$ConfidenceButtons/Conf_correct3/Conf_correct3/ButtonMesh.material_override.emission_enabled = false
+	# also deactivate the response buttons until they are needed
+	$AnswerButtons/SameButton/SameButton.monitoring = false
+	$AnswerButtons/DifferentButton/DifferentButton.monitoring = false
 	
 # switch two objects in the layout
 func switch() -> String:
@@ -42,7 +57,7 @@ func switch() -> String:
 				hasEmptyLocation = false
 	
 	# now do the switch
-	# use reparent(... FALSE) to actually update the locations
+	# use "reparent(... FALSE)" to actually update the locations
 	var temp = Node3D.new()
 	object_locations.add_child(temp)
 	object_locations.get_node(loc1).get_child(0).reparent(temp, false)
@@ -52,12 +67,16 @@ func switch() -> String:
 	
 	return loc1 + loc2
 
-	
-	
 func presentObjectsAfterTimer() -> void:
 	# get the item display and show the objects
 	$ItemDisplayLocation.get_child(0).present_objects()
-
+	# only from now on the response buttons are registering, so they are not accidentally triggered before
+	$AnswerButtons/SameButton/SameButton.monitoring = true
+	$AnswerButtons/DifferentButton/DifferentButton.monitoring = true
+	# start measuring response time
+	ExperimentLogic.getCurrentTrial().get_node("ResponseTimer").start()
+	
+###################################################################################################
 
 func _response_given(has_changed: bool) -> void:
 	var RT : float = 0
@@ -70,6 +89,9 @@ func _response_given(has_changed: bool) -> void:
 	ExperimentLogic.getCurrentTrial().response_time = RT
 	# hide the response buttons and show the confidence buttons
 	$AnswerButtons/HideResponseButtons.play("hide")
+	# deactivate the buttons, just to be sure
+	$AnswerButtons/SameButton/SameButton.monitoring = false
+	$AnswerButtons/DifferentButton/DifferentButton.monitoring = false
 
 func _confidence_given(conf: int = 0) -> void:
 	# save given confidence response into current trial
@@ -86,19 +108,25 @@ func _confidence_given(conf: int = 0) -> void:
 	# also, since this was the last response, the trial is now finished
 	ExperimentLogic.getCurrentTrial().validTrial()
 	
+###################################################################################################
 	
 func _on_same_button_button_pressed(button: Variant) -> void:
+	# make the button glow
+	$AnswerButtons/SameButton/SameButton/ButtonMesh.material_override.emission_enabled = true
+	# register response and go to confidence buttons
 	_response_given(false)
 
-
 func _on_different_button_button_pressed(button: Variant) -> void:
+	# make the button glow
+	$AnswerButtons/DifferentButton/DifferentButton/ButtonMesh.material_override.emission_enabled = true
+	# register response and go to confidence buttons
 	_response_given(true)
 
-
+# as soon as the response buttons are hidden, reveal the confidence buttons
 func _on_hide_response_buttons_animation_finished(anim_name: StringName) -> void:
 	$ConfidenceButtons/ShowConfidenceButtons.play("show_confidence_buttons")
 
-
+# onlly start registering answers once the buttons stopped moving
 func _on_show_confidence_buttons_animation_finished(anim_name: StringName) -> void:
 	# once the confidence buttons are completely visible and stopped moving, start confidence timer
 	ExperimentLogic.getCurrentTrial().get_node("ConfidenceTimer").start()
@@ -110,26 +138,29 @@ func _on_show_confidence_buttons_animation_finished(anim_name: StringName) -> vo
 	$ConfidenceButtons/Conf_correct2/Conf_correct2.monitoring = true
 	$ConfidenceButtons/Conf_correct3/Conf_correct3.monitoring = true
 
-
+# do basically the same for all confidence buttons with slight variations
 func _on_conf_wrong_3_button_pressed(button: Variant) -> void:
+	# make the button glow
+	$ConfidenceButtons/Conf_wrong3/Conf_wrong3/ButtonMesh.material_override.emission_enabled = true
+	# register response
 	_confidence_given(-3)
 
-
 func _on_conf_wrong_2_button_pressed(button: Variant) -> void:
+	$ConfidenceButtons/Conf_wrong2/Conf_wrong2/ButtonMesh.material_override.emission_enabled = true
 	_confidence_given(-2)
 
-
 func _on_conf_wrong_1_button_pressed(button: Variant) -> void:
+	$ConfidenceButtons/Conf_wrong1/Conf_wrong1/ButtonMesh.material_override.emission_enabled = true
 	_confidence_given(-1)
 
-
 func _on_conf_correct_1_button_pressed(button: Variant) -> void:
+	$ConfidenceButtons/Conf_correct1/Conf_correct1/ButtonMesh.material_override.emission_enabled = true
 	_confidence_given(1)
 
-
 func _on_conf_correct_2_button_pressed(button: Variant) -> void:
+	$ConfidenceButtons/Conf_correct2/Conf_correct2/ButtonMesh.material_override.emission_enabled = true
 	_confidence_given(2)
 
-
 func _on_conf_correct_3_button_pressed(button: Variant) -> void:
+	$ConfidenceButtons/Conf_correct3/Conf_correct3/ButtonMesh.material_override.emission_enabled = true
 	_confidence_given(3)

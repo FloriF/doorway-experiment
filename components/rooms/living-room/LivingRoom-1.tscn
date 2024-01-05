@@ -198,3 +198,6 @@ script = ExtResource("38_v6pbr")
 
 [node name="mat_2" parent="." instance=ExtResource("39_umu0r")]
 transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0.740402, 0.166667, 1.2979)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.26324, 0)

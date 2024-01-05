@@ -16,6 +16,8 @@ func _ready() -> void:
 	objects.visible = true
 	# add the objects as child of the display, to get the corretc position
 	$ItemDisplayLocation.get_child(0).add_child(objects)
+	# reset the button glow
+	$Button/InteractableAreaButton/ButtonMesh.material_override.emission_enabled = false
 
 # when the button is pressed
 func _on_interactable_area_button_button_pressed(button: Variant) -> void:
@@ -23,18 +25,14 @@ func _on_interactable_area_button_button_pressed(button: Variant) -> void:
 	if $ButtonTimeOut.is_stopped():
 		# start the button timer to prevent multiple activations
 		$ButtonTimeOut.start()
-		# get the current trial information
-		#var currentTrial = ExperimentLogic.getCurrentTrial()
-		## instantiate the objects from the current trial
-		## first, get the item display that was instantiated
-		#var currentItemDisplay = $ItemDisplayLocation.get_child(0)
-		## next, get the location where the objects should be shown
-		#var objectLocation = currentItemDisplay.getObjectPositionOnDisplay
-		#objectLocation.add_child(currentTrial)
-		## make the objects visible
-		#objectLocation.get_child(0).showObjects()
 		# show the objects of the corresponding item display by lifting the lid
 		$ItemDisplayLocation.get_node("ItemDisplay").present_objects()
 		# start the trial's movement timer
 		ExperimentLogic.getCurrentTrial().get_node("MovementTimer").start()
-
+		# make button glow
+		$Button/InteractableAreaButton/ButtonMesh.material_override.emission_enabled = true
+		# hide the button
+		$Button/HideButton.play("hide")
+		# deactivate the button to be sure
+		$Button/InteractableAreaButton.monitoring = false
+		

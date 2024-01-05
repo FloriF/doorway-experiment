@@ -10,5 +10,8 @@ transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0, 0, 0)
 
 [node name="floor" parent="." instance=ExtResource("1_pfj1v")]
 
+[node name="OmniLight3D" type="OmniLight3D" parent="floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.26324, 0)
+
 [node name="wall_textured" parent="." instance=ExtResource("2_dbuf1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.643531, 0.166667, -1.75579)
