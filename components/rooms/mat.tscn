@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://cc5qaafbtent7"]
+
+[ext_resource type="PackedScene" uid="uid://bs2ixpjs20ify" path="res://assets/furniture/mat_2.glb" id="1_utnlu"]
+[ext_resource type="Script" path="res://components/rooms/mat_responseArea.gd" id="2_tmvna"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_036oy"]
+size = Vector3(1.3811, 2.17627, 1.40381)
+
+[node name="mat" instance=ExtResource("1_utnlu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.190987, 1.59233)
+script = ExtResource("2_tmvna")
+
+[node name="ResponseArea" type="Area3D" parent="." index="1"]
+collision_layer = 0
+collision_mask = 524288
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ResponseArea" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00231934, 1.04522, 0.0222168)
+shape = SubResource("BoxShape3D_036oy")
+
+[connection signal="body_entered" from="ResponseArea" to="." method="_on_response_area_body_entered"]
+[connection signal="body_exited" from="ResponseArea" to="." method="_on_response_area_body_exited"]

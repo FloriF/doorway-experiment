@@ -1,11 +1,16 @@
 extends Node3D
 
 var teleport_transform
+var feedback_text : String = ""
 
 # initialize XR/VR
 var xr_interface: XRInterface
 
 ###################################################################################################
+
+# this is called every processing step, so it should always updateimmediately
+func _process(delta: float) -> void:
+	$XRCamera3D/FeedbackMessage.text = feedback_text
 
 func _ready() -> void:
 	# default code to make XR work
@@ -28,6 +33,13 @@ func fadeToBlack() -> void:
 	
 func fadeToScene() -> void:
 	$XRCamera3D/FadeAnimation.play_backwards("fade_to_black")
+
+func giveFeedback(message: String) -> void:
+	# set feedback text
+	feedback_text = message
+	# set and start timer
+	#$XRCamera3D/FeedbackMessage/FeedbackMessageTimer.wait_time = duration
+	$XRCamera3D/FeedbackMessage/FeedbackMessageTimer.start()
 
 # experimenter triggers the calibrate height function of the xr toolbox
 func expCalibrateHeight() -> void:
@@ -56,7 +68,7 @@ func initiate_teleport(target_transform) -> void:
 	# fade to black
 	$XRCamera3D/FadeAnimation.play("fade2black")
 	# start timer so fade animation finishes before player is teleported
-	$XRCamera3D/TeleportTimer.start()
+	$PlayerBody/TeleportTimer.start()
 	# set teleport location
 	teleport_transform = target_transform
 
@@ -65,9 +77,15 @@ func initiate_teleport(target_transform) -> void:
 func _on_xr_controller_left_button_pressed(name: String) -> void:
 	if name == "ax_button":
 		toggle_vignette_visibility()
+		$XRControllerLeft.trigger_haptic_pulse("haptic", 10, 10, 0.5, 0)
 		
 func _on_teleport_timer_timeout() -> void:
 	# teleport the player
 	$PlayerBody.teleport(teleport_transform)
 	# fade back to scene
 	$XRCamera3D/FadeAnimation.play_backwards("fade2black")
+
+
+func _on_feedback_message_timer_timeout() -> void:
+	# clear the feedback message
+	feedback_text = ""

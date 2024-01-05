@@ -79,9 +79,6 @@ visible = false
 auto_rotation_limit = 5.0
 auto_velocity_limit = 2.0
 
-[node name="TeleportTimer" type="Timer" parent="XRCamera3D"]
-one_shot = true
-
 [node name="Fade" type="MeshInstance3D" parent="XRCamera3D"]
 mesh = SubResource("QuadMesh_ivetf")
 surface_material_override/0 = SubResource("ShaderMaterial_4d55d")
@@ -92,9 +89,22 @@ libraries = {
 }
 speed_scale = 2.5
 
+[node name="FeedbackMessage" type="Label3D" parent="XRCamera3D"]
+transform = Transform3D(0.423706, 0, 0, 0, 0.449482, 0, 0, 0, 1, 0, 0, -0.863963)
+modulate = Color(1, 0, 0, 1)
+text = " This is some example text "
+
+[node name="FeedbackMessageTimer" type="Timer" parent="XRCamera3D/FeedbackMessage"]
+wait_time = 5.0
+one_shot = true
+
 [node name="PlayerBody" parent="." instance=ExtResource("2_hg512")]
 physics = SubResource("Resource_g61qw")
 metadata/_edit_group_ = true
+
+[node name="TeleportTimer" type="Timer" parent="PlayerBody"]
+wait_time = 2.0
+one_shot = true
 
 [node name="XRControllerLeft" type="XRController3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1.11759e-08, 0)
@@ -122,4 +132,6 @@ strafe = true
 script = ExtResource("6_k1uqo")
 max_speed = 2.5
 
-[connection signal="timeout" from="XRCamera3D/TeleportTimer" to="." method="_on_teleport_timer_timeout"]
+[connection signal="timeout" from="XRCamera3D/FeedbackMessage/FeedbackMessageTimer" to="." method="_on_feedback_message_timer_timeout"]
+[connection signal="timeout" from="PlayerBody/TeleportTimer" to="." method="_on_teleport_timer_timeout"]
+[connection signal="button_pressed" from="XRControllerLeft" to="." method="_on_xr_controller_left_button_pressed"]

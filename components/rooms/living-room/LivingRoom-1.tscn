@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://bnopr2pkghgd7"]
+[gd_scene load_steps=38 format=3 uid="uid://bnopr2pkghgd7"]
 
 [ext_resource type="PackedScene" uid="uid://gvkb3yd6ley7" path="res://assets/room-structure-basic/floor.glb" id="1_i4yfn"]
 [ext_resource type="PackedScene" uid="uid://dr3rv3qjfqdlv" path="res://assets/furniture/bed.glb" id="3_tjb7v"]
@@ -37,7 +37,6 @@
 [ext_resource type="PackedScene" uid="uid://cptgv3q2xtdgu" path="res://assets/room-structure-basic/wall.glb" id="36_lpqa7"]
 [ext_resource type="PackedScene" uid="uid://bi2aaubtog8se" path="res://assets/room-structure-basic/wall_column.glb" id="37_q8n82"]
 [ext_resource type="Script" path="res://components/rooms/roof.gd" id="38_v6pbr"]
-[ext_resource type="PackedScene" uid="uid://bs2ixpjs20ify" path="res://assets/furniture/mat_2.glb" id="39_umu0r"]
 
 [node name="LivingRoom-1" type="Node3D"]
 
@@ -195,9 +194,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.21925, 0.166666, -2.3936)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.42552, 0)
 visible = false
 script = ExtResource("38_v6pbr")
-
-[node name="mat_2" parent="." instance=ExtResource("39_umu0r")]
-transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 0.740402, 0.166667, 1.2979)
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.26324, 0)

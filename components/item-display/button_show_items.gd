@@ -36,3 +36,8 @@ func _on_interactable_area_button_button_pressed(button: Variant) -> void:
 		# deactivate the button to be sure
 		$Button/InteractableAreaButton.monitoring = false
 		
+
+# haptic feedback to controller if button is pressed
+func _on_interactable_area_button_body_entered(body: Node3D) -> void:
+	body.find_parent("XRController*").trigger_haptic_pulse("haptic", 10, 15, 0.1, 0.1)
+

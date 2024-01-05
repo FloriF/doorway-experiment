@@ -11,10 +11,11 @@ var objects_changed : bool = false
 var switched_locations : String = ""
 
 # data collected for this trial
-var respone_objects_have_changed : bool = false #TODO
-var response_time : float = 0 #TODO
-var confidence : int = 0 #TODO
-var confidence_time : float = 0 #TODO
+var respone_objects_have_changed : bool = false 
+var response_time : float = 0 
+var confidence : int = 0 
+var confidence_time : float = 0 
+var playerInResponseArea : bool = false
 
 # count additional presentations due to errors (not wrong answers!)
 var repetition : int = 0
@@ -23,10 +24,13 @@ var error_info : String = ""
 ###################################################################################################
 
 func _ready() -> void:
+	# initialize stuff
 	# get max timer values in case they have changed
 	$MovementTimer.wait_time = ExperimentLogic.MAX_MOVEMENT_TIME
 	$ResponseTimer.wait_time = ExperimentLogic.MAX_RESPONSE_TIME
 	$ConfidenceTimer.wait_time = ExperimentLogic.MAX_CONFIDENCE_TIME
+	# reset response area for this trial
+	playerInResponseArea = false
 	
 # this is called to set all necessary information for the current trial
 func set_conditions(c_room_1, c_doorway, c_room_2, c_number_of_objects, c_object_contexts, c_objects_changed) -> void:
@@ -150,10 +154,13 @@ func _populateRooms(room1, room2, door) -> void:
 	# next, add the buttons to the rooms
 	var button_show_items = load("res://components/item-display/button_show_items.tscn")
 	var response_buttons = load("res://components/item-display/response_buttons.tscn")
+	var response_area = load("res://components/rooms/mat.tscn")
 	# buttons to show in room 1
 	$TrialSetup/PositionRoom1.get_child(0).get_node("ButtonLocation").add_child(button_show_items.instantiate())
 	# response buttons in room 2
 	$TrialSetup/PositionRoom2.get_child(0).get_node("ButtonLocation").add_child(response_buttons.instantiate())
+	# also add the response area
+	$TrialSetup/PositionRoom2.get_child(0).get_node("ButtonLocation").add_child(response_area.instantiate())
 	# switch two objects in the second room, if this is the condition
 	if objects_changed:
 		# get the response buttons node and call the switch function in that script
@@ -209,6 +216,7 @@ func _saveTrial() -> void:
 	file.store_line("\n")
 	# (not necessary) close file
 	file.close()
+
 	
 # do all the stuff that is needed after the current trial ended and has been moved
 func _endTrial(success : String = "") -> void:
@@ -249,11 +257,17 @@ func _on_movement_timer_timeout() -> void:
 	# find the response buttons and let them tell the display to open
 	# (this is an artifact of the buttons being reponsible for the item display to open/close)
 	$TrialSetup/PositionRoom2.get_child(0).get_node("ButtonLocation").get_child(0).presentObjectsAfterTimer()
-	# TODO make error trial if participant is not in area (moved too slow)
+	# make error trial if participant is not in response area (moved too slow between displays)
+	# this is done so it is very improbable the player did not actually see the second display
+	if not playerInResponseArea:
+		get_tree().call_group("player", "giveFeedback", "Please try to get to the\n second room a little faster")
+		await get_tree().create_timer(1).timeout
+		errorTrial("playerNotInResponseArea")
 
 func _on_response_timer_timeout() -> void:
+	get_tree().call_group("player", "giveFeedback", "Please respond a little faster")
 	errorTrial("slowResponse")
-
-
+	
 func _on_confidence_timer_timeout() -> void:
+	get_tree().call_group("player", "giveFeedback", "Please respond a little faster")
 	errorTrial("slowConfidence")

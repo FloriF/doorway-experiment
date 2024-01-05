@@ -96,4 +96,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0159755, 0.809389, -0.9347
 wait_time = 10.0
 one_shot = true
 
+[connection signal="body_entered" from="Button/InteractableAreaButton" to="." method="_on_interactable_area_button_body_entered"]
 [connection signal="button_pressed" from="Button/InteractableAreaButton" to="." method="_on_interactable_area_button_button_pressed"]

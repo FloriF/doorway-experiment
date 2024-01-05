@@ -164,3 +164,9 @@ func _on_conf_correct_2_button_pressed(button: Variant) -> void:
 func _on_conf_correct_3_button_pressed(button: Variant) -> void:
 	$ConfidenceButtons/Conf_correct3/Conf_correct3/ButtonMesh.material_override.emission_enabled = true
 	_confidence_given(3)
+
+# haptic feedback responses for pressed buttons
+# make sure that all buttons connect to this signal
+func _on_ANY_button_body_entered(body: Node3D) -> void:
+	body.find_parent("XRController*").trigger_haptic_pulse("haptic", 10, 15, 0.1, 0.1)
+

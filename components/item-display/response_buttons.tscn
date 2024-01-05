@@ -430,13 +430,21 @@ libraries = {
 "": SubResource("AnimationLibrary_vglxw")
 }
 
+[connection signal="body_entered" from="AnswerButtons/SameButton/SameButton" to="." method="_on_ANY_button_body_entered"]
 [connection signal="button_pressed" from="AnswerButtons/SameButton/SameButton" to="." method="_on_same_button_button_pressed"]
+[connection signal="body_entered" from="AnswerButtons/DifferentButton/DifferentButton" to="." method="_on_ANY_button_body_entered"]
 [connection signal="button_pressed" from="AnswerButtons/DifferentButton/DifferentButton" to="." method="_on_different_button_button_pressed"]
 [connection signal="animation_finished" from="AnswerButtons/HideResponseButtons" to="." method="_on_hide_response_buttons_animation_finished"]
+[connection signal="body_entered" from="ConfidenceButtons/Conf_wrong3/Conf_wrong3" to="." method="_on_ANY_button_body_entered"]
 [connection signal="button_pressed" from="ConfidenceButtons/Conf_wrong3/Conf_wrong3" to="." method="_on_conf_wrong_3_button_pressed"]
+[connection signal="body_entered" from="ConfidenceButtons/Conf_wrong2/Conf_wrong2" to="." method="_on_ANY_button_body_entered"]
 [connection signal="button_pressed" from="ConfidenceButtons/Conf_wrong2/Conf_wrong2" to="." method="_on_conf_wrong_2_button_pressed"]
+[connection signal="body_entered" from="ConfidenceButtons/Conf_wrong1/Conf_wrong1" to="." method="_on_ANY_button_body_entered"]
 [connection signal="button_pressed" from="ConfidenceButtons/Conf_wrong1/Conf_wrong1" to="." method="_on_conf_wrong_1_button_pressed"]
+[connection signal="body_entered" from="ConfidenceButtons/Conf_correct1/Conf_correct1" to="." method="_on_ANY_button_body_entered"]
 [connection signal="button_pressed" from="ConfidenceButtons/Conf_correct1/Conf_correct1" to="." method="_on_conf_correct_1_button_pressed"]
+[connection signal="body_entered" from="ConfidenceButtons/Conf_correct2/Conf_correct2" to="." method="_on_ANY_button_body_entered"]
 [connection signal="button_pressed" from="ConfidenceButtons/Conf_correct2/Conf_correct2" to="." method="_on_conf_correct_2_button_pressed"]
+[connection signal="body_entered" from="ConfidenceButtons/Conf_correct3/Conf_correct3" to="." method="_on_ANY_button_body_entered"]
 [connection signal="button_pressed" from="ConfidenceButtons/Conf_correct3/Conf_correct3" to="." method="_on_conf_correct_3_button_pressed"]
 [connection signal="animation_finished" from="ConfidenceButtons/ShowConfidenceButtons" to="." method="_on_show_confidence_buttons_animation_finished"]
