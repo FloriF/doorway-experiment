@@ -5,6 +5,8 @@ var participantID : int = 0
 var newTrial = load("res://components/trial/trial.tscn")
 var trial_number : int = 0
 var correct_trials : int = 0
+var total_number_of_training_trials : int = 0
+var number_of_error_training_trials : int = 0
 var total_number_of_trials : int = 0
 var number_of_error_trials : int = 0
 
@@ -20,15 +22,21 @@ var workshop_variations : Array = []
 # fixed experiment settings
 const ROOM_CONTEXT = ["LivingRoom", "Workshop"]
 const DOORWAY_CONDITION = ["Doorway", "NoDoorway"]
-const REPETITIONS = 1 # how many times each condition is repeated
+const REPETITIONS = 8 # how many times each condition is repeated
+# with the initial setup, each repetition more adds a total of ~5min to the experiment
+# 10 repetitions are ~1h without breaks (!)
 const NUMBER_OF_OBJECTS = 5 # how many of the 7 locations should contain an object?
 
+# to track whether we are doing training trials
+var currentTrialType : String = ""
+var training_is_completed: bool = false 
 # experiment timings
-const MAX_MOVEMENT_TIME = 8 # maximum time allowed to move between item displays
+const MAX_MOVEMENT_TIME = 10 # maximum time allowed to move between item displays
 # this is the time from initital button press until the lid of the second display starts opening
 # so this INCLUDES the total initial presentation time (2*DISPLAY_OPENING + DISPLAY_STAY times) 
 
 const MAX_RESPONSE_TIME = 5 # maximum time to give a response after seeing the objects
+# (THIS STARTS AS SOON AS THE DISPLAY STARTS TO OPEN!!)
 const MAX_CONFIDENCE_TIME = 5 # maximum time to give a confidence response
 
 const DISPLAY_OPENING_TIME = 1 # seconds it takes from start to end of display lid opening animation
@@ -56,6 +64,22 @@ func _ready() -> void:
 	living_room_variations = _getStimulusObjects("res://components/rooms/living-room/")
 	workshop_variations = _getStimulusObjects("res://components/rooms/workshop/")
 
+# rarely, there appeared to somehow be multiple trials in current trial, here I try to fix this
+# this should not happen anymore, since we deactivate buttons immediately and only proceed to
+# evaluate the response and get the next trial if the button is enabled - which should only hapen once now
+func _process(delta: float) -> void:
+	if $Trials/CurrentTrial.get_child_count() > 1:
+		get_tree().call_group("player", "giveFeedback", "Internal timing error")
+		# we cannot simply make an error trial, since this would also move the player to the next trial
+		# and we would still have 2 or more trials in here. So I chose to accept minimal data loss
+		# and just delete the second of the two trials in here
+		$Trials/CurrentTrial.get_child(1).queue_free()
+
+# call this after creating all trials to get correct values for trial counts
+func countTrials() -> void:
+	total_number_of_training_trials = $Trials/TrainingTrials.get_child_count()
+	total_number_of_trials = $Trials/ExperimentTrials.get_child_count()
+
 func prepareSaveData() -> void:
 	saveFile = SAVE_DATA_PATH + "doorway_" + str(participantID).pad_zeros(3) + ".json"
 	var file : RefCounted
@@ -76,6 +100,7 @@ func prepareSaveData() -> void:
 	
 	# close file
 	file.close()
+
 
 # popup information if data for participant already exists
 func _alertIDExists() -> void:
@@ -103,12 +128,12 @@ func _on_Dialog_cancelled() -> void:
 
 # loop over all possible condition combinations and add a trial for each
 # this also creates repeated trials
-func prepareTrials() -> void:
+func prepareTrials(repetitions, node_with_trials : Node) -> void:
 	for first_room in ROOM_CONTEXT:
 		for doorway in DOORWAY_CONDITION:
 			for second_room in ROOM_CONTEXT:
 				# create multiple repetitions of each condition combination
-				for i in range(REPETITIONS):
+				for i in range(repetitions):
 					for objects_changed in [true, false]:
 						# create a new trial
 						var addedTrial = newTrial.instantiate()
@@ -120,25 +145,40 @@ func prepareTrials() -> void:
 						addedTrial.set_conditions(first_room, doorway, second_room, NUMBER_OF_OBJECTS, objectContexts, objects_changed)
 						# add this trial to the list of future trials
 						# 'true' forces a readable name (Trial7 instead of @Node485 or whatever)
-						$Trials/FutureTrials.add_child(addedTrial, true)
-	# finally, also for tracking purposes, give the amount of trials created
-	total_number_of_trials = $Trials/FutureTrials.get_child_count()
+						node_with_trials.add_child(addedTrial, true)
 
 # picks a random trial from either the future trials or the error trials that have to be repeated
 func pickRandomTrial() -> Node:
-	# initially, only take trials from the list of trials created at the start of the experiment
-	var NodeWithTrials = $Trials/FutureTrials
-	# if there are no more future trials, check if any are in the ErrorTrials group
+	# first, draw from the Training trials
+	var NodeWithTrials = $Trials/TrainingTrials
+	currentTrialType = "TrainingTrial"
 	if NodeWithTrials.get_child_count() == 0:
+		# next, repeat only the error training trials
 		NodeWithTrials = $Trials/ErrorTrials
-		# if there are also no more error trials to be repeated
+		currentTrialType = "RepeatedTrainingErrorTrial"
 		if NodeWithTrials.get_child_count() == 0:
-			endExperiment()
+			# only once, notify the participant that training is completed
+			if not training_is_completed:
+				get_tree().call_group("player", "giveFeedback", "Training completed!")
+				training_is_completed = true
+			# next, only take trials from the list of actual experimental trials
+			NodeWithTrials = $Trials/ExperimentTrials
+			currentTrialType = "ExperimentalTrial"
+			# if there are no more future trials, check if any are in the ErrorTrials group
+			if NodeWithTrials.get_child_count() == 0:
+				NodeWithTrials = $Trials/ErrorTrials
+				currentTrialType = "RepeatedErrorExperimentalTrial"
+				# if there are also no more error trials to be repeated
+				if NodeWithTrials.get_child_count() == 0:
+					get_tree().call_group("player", "giveFeedback", "Experiment completed!")
+					endExperiment()
 	# get number of trials in this node and select by "random number modulo the number of trials"
 	# this way, regardless of which random number is generated, there is always a valid trial/index
 	var randomTrialID : int = randi() % NodeWithTrials.get_child_count()
 	# return the Trial node
-	return NodeWithTrials.get_child(randomTrialID)
+	var selectedTrial = NodeWithTrials.get_child(randomTrialID)
+	selectedTrial.trialtype = currentTrialType
+	return selectedTrial
 
 # add the player node to the current trial
 func addPlayerToCurrentTrial() -> void:
@@ -157,6 +197,13 @@ func addPlayerToCurrentTrial() -> void:
 	# move the player to the current trial
 	currentPlayerNode.initiate_teleport(currentStartPosition.global_transform)
 	currentPlayerNode.reparent(currentStartPosition, false)
+	
+	# also, rename the trial node to its type + trial number 
+	# this way, there will be no duplicate names. this might happen due to the automatic naming of nodes:
+	# we generate trials separately in the futuretrials and trainingtrials nodes, and both times the naming
+	# starts with trial1, trial2, etc. Later, we will move both types of trials into the completed trials
+	# section, where we might then end up with duplicate names that could potentially be a problem
+	currentTrial.name = currentTrial.trialtype + str(trial_number).pad_zeros(3)
 	
 # these functions can be called by buttons to get the trial information
 func getCurrentTrial() -> Node:

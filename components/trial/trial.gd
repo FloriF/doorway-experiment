@@ -9,6 +9,7 @@ var number_of_objects : int = 0
 var object_contexts : Array = []
 var objects_changed : bool = false
 var switched_locations : String = ""
+var trialtype : String = ""
 
 # data collected for this trial
 var respone_objects_have_changed : bool = false 
@@ -57,12 +58,17 @@ func validTrial() -> void:
 func errorTrial(error_str: String = "") -> void:
 	# save the reason for error
 	error_info = error_str
-	# increase the repetitions counter for this trial
-	repetition += 1
 	# track the number of trials that have to be repeated for monitoring during experiment
-	ExperimentLogic.number_of_error_trials += 1
+	if trialtype == "ExperimentalTrial":
+		ExperimentLogic.number_of_error_trials += 1
+	if trialtype == "TrainingTrial":
+		ExperimentLogic.number_of_error_training_trials += 1		
 	# save trial data to file
 	_saveTrial()
+	# increase the repetitions counter for this trial
+	repetition += 1
+	# reset the error string
+	error_info = ""
 	# move the trial to the error trial group
 	self.reparent(ExperimentLogic.get_node("Trials").get_node("ErrorTrials"))
 	_endTrial("error")
@@ -172,6 +178,7 @@ func _getTrialSaveData() -> Dictionary:
 	var saveData = {
 		# general information
 		"trial_number": trial_number,
+		"trialtype": trialtype,
 		"first_room": first_room,
 		"doorway": doorway,
 		"second_room": second_room,
@@ -227,7 +234,7 @@ func _endTrial(success : String = "") -> void:
 	# instantiate the objects for this next trial
 	ExperimentLogic.getNextTrial()._populateTrial()
 	# move the player node to the next trial
-	ExperimentLogic.currentPlayerNode.reparent(ExperimentLogic.getNextTrial())
+	#ExperimentLogic.currentPlayerNode.reparent(ExperimentLogic.getNextTrial())
 	# make this trial the current trial
 	ExperimentLogic.getNextTrial().reparent(ExperimentLogic.get_node("Trials").get_node("CurrentTrial"))
 	
@@ -246,9 +253,9 @@ func _endTrial(success : String = "") -> void:
 func _stopAllTimers() -> void:
 	if get_node_or_null("MovementTimer") != null:
 		$MovementTimer.stop()
-	if get_node_or_null("MovementTimer") != null:
+	if get_node_or_null("ResponseTimer") != null:
 		$ResponseTimer.stop()
-	if get_node_or_null("MovementTimer") != null:
+	if get_node_or_null("ConfidenceTimer") != null:
 		$ConfidenceTimer.stop()
 	
 ###################################################################################################

@@ -3,7 +3,7 @@ extends Window
 func _ready() -> void:
 	# show participant ID in window
 	%ParticipantID.text = str(ExperimentLogic.participantID).pad_zeros(3)
-	%NumberOfTrials.text = str(ExperimentLogic.total_number_of_trials).pad_zeros(3)
+	$CenterVertically/LiveData/ExperimentTrials/NumberOfTrials.text = str(ExperimentLogic.total_number_of_trials).pad_zeros(3)
 
 ##################################################################################################
 
@@ -14,7 +14,7 @@ func _on_StartFirstTrial_pressed() -> void:
 	nextTrial.reparent(currentTrialNode)
 	# move player into the current trial and disable this button
 	ExperimentLogic.addPlayerToCurrentTrial()
-	$StartFirstTrial.disabled = true
+	$CenterVertically/StartFirstTrial.disabled = true
 
 func _on_height_calibration_pressed() -> void:
 	# execute the height calibration function in the player script

@@ -14,7 +14,13 @@ func _on_start_experiment_pressed() -> void:
 	# create save data file for this participant
 	ExperimentLogic.prepareSaveData()
 	# create trials
-	ExperimentLogic.prepareTrials()
+	ExperimentLogic.prepareTrials(ExperimentLogic.REPETITIONS, ExperimentLogic.get_node("Trials").get_node("ExperimentTrials"))
+	
+	# create training trials
+	ExperimentLogic.prepareTrials(1, ExperimentLogic.get_node("Trials").get_node("TrainingTrials"))
+	
+	# get trial counts
+	ExperimentLogic.countTrials()
 	
 	# add the experiment control window to the scene
 	get_tree().root.add_child(experiment_control_window)

@@ -58,4 +58,11 @@ libraries = {
 wait_time = 2.0
 one_shot = true
 
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1.16484, 0)
+light_energy = 4.783
+shadow_enabled = true
+spot_range = 5.42994
+spot_angle = 43.7022
+
 [connection signal="timeout" from="item_display_lid/Timer" to="." method="_on_timer_timeout"]

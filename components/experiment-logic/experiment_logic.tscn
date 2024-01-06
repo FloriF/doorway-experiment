@@ -13,6 +13,8 @@ script = ExtResource("1_3pyvb")
 
 [node name="NextTrial" type="Node" parent="Trials"]
 
-[node name="FutureTrials" type="Node" parent="Trials"]
+[node name="ExperimentTrials" type="Node" parent="Trials"]
 
 [node name="ErrorTrials" type="Node" parent="Trials"]
+
+[node name="TrainingTrials" type="Node" parent="Trials"]

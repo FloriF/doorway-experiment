@@ -1,13 +1,17 @@
-[gd_scene load_steps=4 format=3 uid="uid://b0gmen7vjw4wd"]
+[gd_scene load_steps=5 format=3 uid="uid://b0gmen7vjw4wd"]
 
 [ext_resource type="Script" path="res://components/control-windows/experiment-control-window.gd" id="1_nor5n"]
 [ext_resource type="Script" path="res://components/control-windows/VignetteToggle.gd" id="1_wl0dw"]
 [ext_resource type="Script" path="res://components/control-windows/LiveData.gd" id="2_kk16u"]
 
+[sub_resource type="LabelSettings" id="LabelSettings_476lt"]
+font_size = 10
+font_color = Color(1, 0.662745, 0.184314, 1)
+
 [node name="ExperimentControlWindow" type="Window" groups=["controlWindow"]]
 title = "Doorway Experiment - Control"
 initial_position = 1
-size = Vector2i(500, 500)
+size = Vector2i(520, 540)
 content_scale_mode = 1
 script = ExtResource("1_nor5n")
 
@@ -18,6 +22,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
+
+[node name="StartFirstTrial" type="Button" parent="CenterVertically"]
+layout_mode = 2
+text = "Start First Trial"
 
 [node name="ExperimentInformation" type="VBoxContainer" parent="CenterVertically"]
 layout_mode = 2
@@ -43,34 +51,65 @@ layout_mode = 2
 layout_mode = 2
 script = ExtResource("2_kk16u")
 
-[node name="CenterHorizontally2" type="HBoxContainer" parent="CenterVertically/LiveData"]
+[node name="TrainingTrials" type="HBoxContainer" parent="CenterVertically/LiveData"]
 layout_mode = 2
 size_flags_horizontal = 4
 alignment = 1
 
-[node name="Label" type="Label" parent="CenterVertically/LiveData/CenterHorizontally2"]
+[node name="Label" type="Label" parent="CenterVertically/LiveData/TrainingTrials"]
 layout_mode = 2
-text = "Current Trial:             "
+text = "Training Trial:                       "
 
-[node name="CurrentTrialNumber" type="Label" parent="CenterVertically/LiveData/CenterHorizontally2"]
-unique_name_in_owner = true
+[node name="CurrentTrialNumber" type="Label" parent="CenterVertically/LiveData/TrainingTrials"]
 layout_mode = 2
 text = "230"
 horizontal_alignment = 2
 
-[node name="Label2" type="Label" parent="CenterVertically/LiveData/CenterHorizontally2"]
+[node name="Label2" type="Label" parent="CenterVertically/LiveData/TrainingTrials"]
 layout_mode = 2
 text = " of "
 horizontal_alignment = 3
 
-[node name="NumberOfTrials" type="Label" parent="CenterVertically/LiveData/CenterHorizontally2"]
-unique_name_in_owner = true
+[node name="NumberOfTrials" type="Label" parent="CenterVertically/LiveData/TrainingTrials"]
 layout_mode = 2
 text = "XXX"
 horizontal_alignment = 3
 
-[node name="ProgressBar" type="ProgressBar" parent="CenterVertically/LiveData"]
+[node name="ProgressBarTraining" type="ProgressBar" parent="CenterVertically/LiveData"]
 layout_mode = 2
+
+[node name="ExperimentTrials" type="HBoxContainer" parent="CenterVertically/LiveData"]
+layout_mode = 2
+size_flags_horizontal = 4
+alignment = 1
+
+[node name="Label" type="Label" parent="CenterVertically/LiveData/ExperimentTrials"]
+layout_mode = 2
+text = "Experimental Trial:             "
+
+[node name="CurrentTrialNumber" type="Label" parent="CenterVertically/LiveData/ExperimentTrials"]
+layout_mode = 2
+text = "230"
+horizontal_alignment = 2
+
+[node name="Label2" type="Label" parent="CenterVertically/LiveData/ExperimentTrials"]
+layout_mode = 2
+text = " of "
+horizontal_alignment = 3
+
+[node name="NumberOfTrials" type="Label" parent="CenterVertically/LiveData/ExperimentTrials"]
+layout_mode = 2
+text = "XXX"
+horizontal_alignment = 3
+
+[node name="ProgressBarExperiment" type="ProgressBar" parent="CenterVertically/LiveData"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="CenterVertically/LiveData"]
+layout_mode = 2
+text = "Please remember to offer a break to the participant every 20-25% or so."
+label_settings = SubResource("LabelSettings_476lt")
+horizontal_alignment = 1
 
 [node name="Label" type="Label" parent="CenterVertically/LiveData"]
 layout_mode = 2
@@ -131,19 +170,9 @@ text = "Re-calibrate height"
 layout_mode = 2
 text = "Teleport Player back into current Trial"
 
-[node name="StartFirstTrial" type="Button" parent="."]
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -61.5
-offset_right = 61.5
-offset_bottom = 40.0
-grow_horizontal = 2
-text = "Start First Trial"
-
+[connection signal="pressed" from="CenterVertically/StartFirstTrial" to="." method="_on_StartFirstTrial_pressed"]
 [connection signal="toggled" from="CenterVertically/UserControls/VignetteToggle" to="CenterVertically/UserControls/VignetteToggle" method="_on_toggled"]
 [connection signal="toggled" from="CenterVertically/ExperimenterControls/TrackpadToggle" to="." method="_on_trackpad_toggle_toggled"]
 [connection signal="toggled" from="CenterVertically/ExperimenterControls/TriggerToggle" to="." method="_on_trigger_toggle_toggled"]
 [connection signal="pressed" from="CenterVertically/ExperimenterControls/HeightCalibration" to="." method="_on_height_calibration_pressed"]
 [connection signal="pressed" from="CenterVertically/ExperimenterControls/TeleportPlayer" to="." method="_on_teleport_player_pressed"]
-[connection signal="pressed" from="StartFirstTrial" to="." method="_on_StartFirstTrial_pressed"]
