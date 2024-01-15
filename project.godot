@@ -28,6 +28,16 @@ file_logging/enable_file_logging=true
 
 window/subwindows/embed_subwindows=false
 
+[dotnet]
+
+project/assembly_name="DoorwayExperiment"
+
+[editor]
+
+movie_writer/mjpeg_quality=1.0
+movie_writer/movie_file="C:/Users/flori/Nextcloud/obsidian-sync/obsidian-vault/1_projects/master-thesis/moviemaker/test.avi"
+movie_writer/disable_vsync=true
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/godot-xr-tools/plugin.cfg")

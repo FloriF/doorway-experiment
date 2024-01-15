@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://dgrnqgrrkingw"]
+[gd_scene load_steps=28 format=3 uid="uid://dgrnqgrrkingw"]
 
 [ext_resource type="PackedScene" uid="uid://gvkb3yd6ley7" path="res://assets/room-structure-basic/floor.glb" id="1_1ghaa"]
 [ext_resource type="PackedScene" uid="uid://nhje3kkwdi25" path="res://assets/item-display/item_display_base.glb" id="2_ucw4m"]
@@ -24,6 +24,9 @@
 [ext_resource type="PackedScene" uid="uid://ntyewq3xgcn6" path="res://assets/small_objects/toolbox.glb" id="22_xkjfh"]
 [ext_resource type="PackedScene" uid="uid://dans4856hf42w" path="res://assets/small_objects/washing_product.glb" id="23_8a5lx"]
 [ext_resource type="PackedScene" uid="uid://dx5pgja6s1hto" path="res://assets/small_objects/wrench.glb" id="24_tre3m"]
+[ext_resource type="PackedScene" uid="uid://c4p2ypm8gdjh8" path="res://assets/small_objects/smartphone.glb" id="25_se1pv"]
+[ext_resource type="PackedScene" uid="uid://bwqqapve2syi8" path="res://assets/appliances/controller_1.glb" id="26_tqwc7"]
+[ext_resource type="PackedScene" uid="uid://dm4pbt25ou2ru" path="res://assets/small_objects/soap_dispenser.glb" id="27_0v61f"]
 
 [node name="Objects" type="Node3D"]
 
@@ -107,3 +110,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.87414, 0.681654, 0.472352)
 
 [node name="wrench" parent="." instance=ExtResource("24_tre3m")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9748, 0.681654, 0.567969)
+
+[node name="smartphone" parent="." instance=ExtResource("25_se1pv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.876735, 0.63137, -3.91012)
+
+[node name="controller_1" parent="." instance=ExtResource("26_tqwc7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.04713, 0.63137, -4.31142)
+
+[node name="soap_dispenser" parent="." instance=ExtResource("27_0v61f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.13032, 0.634348, -3.94328)

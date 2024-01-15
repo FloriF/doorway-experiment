@@ -1,4 +1,4 @@
-[gd_scene load_steps=68 format=3 uid="uid://bnopr2pkghgd7"]
+[gd_scene load_steps=67 format=3 uid="uid://bnopr2pkghgd7"]
 
 [ext_resource type="PackedScene" uid="uid://gvkb3yd6ley7" path="res://assets/room-structure-basic/floor.glb" id="1_i4yfn"]
 [ext_resource type="PackedScene" uid="uid://dr3rv3qjfqdlv" path="res://assets/furniture/bed.glb" id="3_tjb7v"]
@@ -43,7 +43,6 @@
 [ext_resource type="PackedScene" uid="uid://xm7acoxeohj2" path="res://assets/appliances/printer.glb" id="40_tw6rb"]
 [ext_resource type="PackedScene" uid="uid://co4vc3eqpv7x3" path="res://assets/furniture/bed_pillow_2.glb" id="41_0jqjq"]
 [ext_resource type="PackedScene" uid="uid://ckqrp0u3apbyh" path="res://assets/furniture/bed_table.glb" id="42_gu3ho"]
-[ext_resource type="PackedScene" uid="uid://dydu3omwf2053" path="res://assets/furniture/blinds_closed.glb" id="43_suk22"]
 [ext_resource type="PackedScene" uid="uid://i7mfybbfxids" path="res://assets/furniture/chair_1.glb" id="44_tw41c"]
 [ext_resource type="PackedScene" uid="uid://dsog7rne38wee" path="res://assets/furniture/plant_2.glb" id="45_htos7"]
 [ext_resource type="PackedScene" uid="uid://rpurg8cnpork" path="res://assets/furniture/rolling_tray.glb" id="46_ycw6i"]
@@ -305,7 +304,7 @@ transform = Transform3D(-0.855923, 0.131892, 0.5, 0.152296, 0.988335, 0, -0.4941
 transform = Transform3D(-0.855785, -0.0621392, 0.513586, -0.0724201, 0.997374, 0, -0.512238, -0.0371939, -0.858038, -2.32854, 1.74098, 3.60573)
 
 [node name="clock" parent="InteriorDecoration" instance=ExtResource("36_hu2q8")]
-transform = Transform3D(5.76205e-08, 0, -1, 0, 1, 0, 1, 0, 5.76205e-08, -4.11846, 2.60894, -0.251217)
+transform = Transform3D(5.76205e-08, 0, -1, 0, 1, 0, 1, 0, 5.76205e-08, -4.11846, 2.42544, 0.268962)
 
 [node name="bed_table" parent="InteriorDecoration" instance=ExtResource("42_gu3ho")]
 transform = Transform3D(-0.66906, 0, -0.438588, 0, 0.8, 0, 0.438588, 0, -0.66906, 3.25074, 0.166667, 2.63279)
@@ -313,8 +312,11 @@ transform = Transform3D(-0.66906, 0, -0.438588, 0, 0.8, 0, 0.438588, 0, -0.66906
 [node name="plant_5" parent="InteriorDecoration/bed_table" instance=ExtResource("15_ane03")]
 transform = Transform3D(1.23487, 0, -0.193927, 0, 1.25, 0, 0.193927, 0, 1.23487, -0.000350237, 0.942838, 0.0164747)
 
-[node name="blinds_closed" parent="InteriorDecoration" instance=ExtResource("43_suk22")]
-transform = Transform3D(-2.99423e-08, 0, 0.685, 0, 0.685, 0, -0.685, 0, -2.99423e-08, -4.17323, 2.06221, -1.39642)
+[node name="curtain3" parent="InteriorDecoration" instance=ExtResource("6_jptsv")]
+transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, -3.99194, 2.06221, -1.39642)
+
+[node name="curtain_pole" parent="InteriorDecoration/curtain3" instance=ExtResource("7_o7wey")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.017419, 0.72975, 0.0711303)
 
 [node name="chair_1" parent="InteriorDecoration" instance=ExtResource("44_tw41c")]
 transform = Transform3D(-0.239686, 0, 0.970851, 0, 1, 0, -0.970851, 0, -0.239686, -3.0119, 0.861156, -0.106356)
@@ -348,6 +350,8 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -3.992
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.10493, 2.39138, 3.08011)
+shadow_enabled = true
 
 [node name="OmniLight3D2" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0931, 1.85633, 0.636351)
+shadow_enabled = true
