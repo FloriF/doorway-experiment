@@ -24,7 +24,7 @@ const ROOM_CONTEXT = ["LivingRoom", "Workshop"]
 const DOORWAY_CONDITION = ["Doorway", "NoDoorway"]
 const REPETITIONS = 8 # how many times each condition is repeated
 # with the initial setup, each repetition more adds a total of ~5min to the experiment
-# 10 repetitions are ~1h without breaks (!)
+# 8 repetitions are ~1h without breaks (!)
 const NUMBER_OF_OBJECTS = 5 # how many of the 7 locations should contain an object?
 
 # to track whether we are doing training trials
@@ -38,6 +38,8 @@ const MAX_MOVEMENT_TIME = 10 # maximum time allowed to move between item display
 const MAX_RESPONSE_TIME = 5 # maximum time to give a response after seeing the objects
 # (THIS STARTS AS SOON AS THE DISPLAY STARTS TO OPEN!!)
 const MAX_CONFIDENCE_TIME = 5 # maximum time to give a confidence response
+
+const DOOR_WAIT_TIME = 0.5 # wait this long after participant enters door region to open the door
 
 const DISPLAY_OPENING_TIME = 1 # seconds it takes from start to end of display lid opening animation
 const DISPLAY_STAY_TIME = 1 # seconds the opened display stays as it is
@@ -56,7 +58,7 @@ var saveFile : String = ""
 func _ready() -> void:
 	# initialize random number generator
 	randomize()
-	seed(1) # for testing purposes only!
+	#seed(1) # for testing purposes only!
 	# prepare lists of possible objects to present
 	stimulusObjects_LivingRoom = _getStimulusObjects("res://components/stimulus-objects/living-room/")
 	stimulusObjects_Workshop = _getStimulusObjects("res://components/stimulus-objects/workshop/")
@@ -69,7 +71,7 @@ func _ready() -> void:
 # evaluate the response and get the next trial if the button is enabled - which should only hapen once now
 func _process(delta: float) -> void:
 	if $Trials/CurrentTrial.get_child_count() > 1:
-		get_tree().call_group("player", "giveFeedback", "Internal timing error")
+		get_tree().call_group("player", "giveFeedback", "TIMING_ERROR")
 		# we cannot simply make an error trial, since this would also move the player to the next trial
 		# and we would still have 2 or more trials in here. So I chose to accept minimal data loss
 		# and just delete the second of the two trials in here
@@ -81,8 +83,13 @@ func countTrials() -> void:
 	total_number_of_trials = $Trials/ExperimentTrials.get_child_count()
 
 func prepareSaveData() -> void:
-	saveFile = SAVE_DATA_PATH + "doorway_" + str(participantID).pad_zeros(3) + ".json"
+	saveFile = SAVE_DATA_PATH + "doorway_" + str(participantID).pad_zeros(3) + ".txt"
 	var file : RefCounted
+	var csvHeader: String = "trial_number,trialtype,first_room,doorway,second_room," + \
+							"objects_changed,switched_locations,response_objects_have_changed," + \
+							"response_time,confidence,confidence_time,repetitions,error_info," + \
+							"Location1,Location2,Location3,Location4,Location5,Location6," + \
+							"Location7,first_room_variant,second_room_variant\n"
 	# check if the save file already exists
 	if FileAccess.file_exists(saveFile):
 		# NOTE this does NOT stop the experiment code from continuing, it is just to inform
@@ -95,9 +102,10 @@ func prepareSaveData() -> void:
 	else:
 		# create a new file
 		file = FileAccess.open(saveFile, FileAccess.WRITE)
+		# add header to file
+		file.store_line(csvHeader)
 		
-	# possibly add general participant information TODO
-	
+
 	# close file
 	file.close()
 
@@ -159,7 +167,7 @@ func pickRandomTrial() -> Node:
 		if NodeWithTrials.get_child_count() == 0:
 			# only once, notify the participant that training is completed
 			if not training_is_completed:
-				get_tree().call_group("player", "giveFeedback", "Training completed!")
+				get_tree().call_group("player", "giveFeedback", "TRAINING_COMPLETE")
 				training_is_completed = true
 			# next, only take trials from the list of actual experimental trials
 			NodeWithTrials = $Trials/ExperimentTrials
@@ -170,7 +178,7 @@ func pickRandomTrial() -> Node:
 				currentTrialType = "RepeatedErrorExperimentalTrial"
 				# if there are also no more error trials to be repeated
 				if NodeWithTrials.get_child_count() == 0:
-					get_tree().call_group("player", "giveFeedback", "Experiment completed!")
+					get_tree().call_group("player", "giveFeedback", "EXPERIMENT_COMPLETE")
 					endExperiment()
 	# get number of trials in this node and select by "random number modulo the number of trials"
 	# this way, regardless of which random number is generated, there is always a valid trial/index

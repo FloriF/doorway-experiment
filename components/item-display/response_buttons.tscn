@@ -234,7 +234,7 @@ libraries = {
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.5, 0)
 
 [node name="Conf_wrong3" type="Node3D" parent="ConfidenceButtons"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.596994, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.596994, 0, 0.190715)
 
 [node name="ButtonBase" type="MeshInstance3D" parent="ConfidenceButtons/Conf_wrong3"]
 transform = Transform3D(0.200875, 0, 0, 0, 1.00438, 0, 0, 0, 0.200875, -0.0159755, 0.0913399, 0.82673)
@@ -262,11 +262,10 @@ skeleton = NodePath("../../../..")
 
 [node name="Label3D" type="Label3D" parent="ConfidenceButtons/Conf_wrong3/Conf_wrong3/ButtonMesh"]
 transform = Transform3D(1.269, -1.1094e-07, -2.42428e-14, 0, 5.54698e-08, -6.344, -1.1094e-07, -1.269, -2.77305e-07, 0, -0.50317, 0.00330162)
-text = "certainly
-wrong"
+text = "CERTAINLY_WRONG"
 
 [node name="Conf_wrong2" type="Node3D" parent="ConfidenceButtons"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.346994, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.346994, 0, 0.0700028)
 
 [node name="ButtonBase" type="MeshInstance3D" parent="ConfidenceButtons/Conf_wrong2"]
 transform = Transform3D(0.200875, 0, 0, 0, 1.00438, 0, 0, 0, 0.200875, -0.0159755, 0.0913399, 0.82673)
@@ -294,8 +293,7 @@ skeleton = NodePath("../../../..")
 
 [node name="Label3D" type="Label3D" parent="ConfidenceButtons/Conf_wrong2/Conf_wrong2/ButtonMesh"]
 transform = Transform3D(1.269, -1.1094e-07, -2.42428e-14, 0, 5.54698e-08, -6.344, -1.1094e-07, -1.269, -2.77305e-07, 0, -0.50317, 0.00330162)
-text = "probably
-wrong"
+text = "PROBABLY_WRONG"
 
 [node name="Conf_wrong1" type="Node3D" parent="ConfidenceButtons"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0969937, 0, 0)
@@ -326,8 +324,7 @@ skeleton = NodePath("../../../..")
 
 [node name="Label3D" type="Label3D" parent="ConfidenceButtons/Conf_wrong1/Conf_wrong1/ButtonMesh"]
 transform = Transform3D(1.269, -1.1094e-07, -2.42428e-14, 0, 5.54698e-08, -6.344, -1.1094e-07, -1.269, -2.77305e-07, 0, -0.50317, 0.00330162)
-text = "maybe
-wrong"
+text = "MAYBE_WRONG"
 
 [node name="Conf_correct1" type="Node3D" parent="ConfidenceButtons"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.16437, 0, 0)
@@ -358,11 +355,10 @@ skeleton = NodePath("../../../..")
 
 [node name="Label3D" type="Label3D" parent="ConfidenceButtons/Conf_correct1/Conf_correct1/ButtonMesh"]
 transform = Transform3D(1.269, -1.1094e-07, -2.42428e-14, 0, 5.54698e-08, -6.344, -1.1094e-07, -1.269, -2.77305e-07, 0, -0.50317, 0.00330162)
-text = "maybe
-correct"
+text = "MAYBE_CORRECT"
 
 [node name="Conf_correct2" type="Node3D" parent="ConfidenceButtons"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.41437, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.41437, 0, 0.0700028)
 
 [node name="ButtonBase" type="MeshInstance3D" parent="ConfidenceButtons/Conf_correct2"]
 transform = Transform3D(0.200875, 0, 0, 0, 1.00438, 0, 0, 0, 0.200875, -0.0159755, 0.0913399, 0.82673)
@@ -390,11 +386,10 @@ skeleton = NodePath("../../../..")
 
 [node name="Label3D" type="Label3D" parent="ConfidenceButtons/Conf_correct2/Conf_correct2/ButtonMesh"]
 transform = Transform3D(1.269, -1.1094e-07, -2.42428e-14, 0, 5.54698e-08, -6.344, -1.1094e-07, -1.269, -2.77305e-07, 0, -0.50317, 0.00330162)
-text = "probably
-correct"
+text = "PROBABLY_CORRECT"
 
 [node name="Conf_correct3" type="Node3D" parent="ConfidenceButtons"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.66437, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.66437, 0, 0.190715)
 
 [node name="ButtonBase" type="MeshInstance3D" parent="ConfidenceButtons/Conf_correct3"]
 transform = Transform3D(0.200875, 0, 0, 0, 1.00438, 0, 0, 0, 0.200875, -0.0159755, 0.0913399, 0.82673)
@@ -422,8 +417,7 @@ skeleton = NodePath("../../../..")
 
 [node name="Label3D" type="Label3D" parent="ConfidenceButtons/Conf_correct3/Conf_correct3/ButtonMesh"]
 transform = Transform3D(1.269, -1.1094e-07, -2.42428e-14, 0, 5.54698e-08, -6.344, -1.1094e-07, -1.269, -2.77305e-07, 0, -0.50317, 0.00330162)
-text = "certainly
-correct"
+text = "CERTAINLY_CORRECT"
 
 [node name="ShowConfidenceButtons" type="AnimationPlayer" parent="ConfidenceButtons"]
 libraries = {

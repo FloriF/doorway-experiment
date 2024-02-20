@@ -80,7 +80,7 @@ emission_energy_multiplier = 10.0
 size = Vector2(0.897, 0.215)
 
 [node name="lamp_3" type="Node3D"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.462338, 3.11046, 2.48647)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 
 [node name="Wall Light 1" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.01, 0, 0, 0, -3.57628e-09, -0.01, 0, 0.01, -3.57628e-09, 0, 0, 0)
@@ -93,7 +93,7 @@ material_override = SubResource("StandardMaterial3D_lkehk")
 mesh = SubResource("PlaneMesh_dldcu")
 
 [node name="SpotLight3D" type="SpotLight3D" parent="."]
-transform = Transform3D(-1, 0, -5.96046e-08, 0, 1, 0, 5.96046e-08, 0, -1, 0, 0, 0.0690677)
+transform = Transform3D(-1, 0, -5.96046e-08, 0, 1, 0, 5.96046e-08, 0, -1, 0, 8.22167e-09, 0.257157)
 light_color = Color(1, 0.980392, 0.945098, 1)
 light_energy = 3.703
 shadow_enabled = true

@@ -1,0 +1,15 @@
+﻿keys,en,de
+LANGUAGE,English,Deutsch
+TIMING_ERROR,Internal timing error,Interner Timing-Fehler
+TRAINING_COMPLETE,Training completed!,Übungsblock beendet!
+EXPERIMENT_COMPLETE,Experiment completed!,Experiment beendet!
+TOO_SLOW_MOVE,Please try to get to the\n second room a little faster,Bitte bewege Dich etwas schneller\n in den zweiten Raum
+TOO_SLOW_RESPONSE,Please respond a little faster,Bitte antworte etwas schneller
+SAME,SAME,GLEICH
+DIFF,DIFF,VERSCH
+CERTAINLY_WRONG,certainly\nwrong,sicher\nfalsch
+PROBABLY_WRONG,probably\nwrong,wahrscheinlich\nfalsch
+MAYBE_WRONG,maybe\nwrong,vielleicht\nfalsch
+MAYBE_CORRECT,maybe\ncorrect,vielleicht\nrichtig
+PROBABLY_CORRECT,probably\ncorrect,wahrscheinlich\nrichtig
+CERTAINLY_CORRECT,certainly\ncorrect,sicher\nrichtig

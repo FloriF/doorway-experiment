@@ -8,6 +8,10 @@ var player = preload("res://components/player/player.tscn").instantiate()
 
 ###################################################################################################
 
+func _ready() -> void:
+	# default language
+	TranslationServer.set_locale("en")
+
 func _on_start_experiment_pressed() -> void:
 	# put startup window input into experiment logic
 	ExperimentLogic.participantID = $CenterVertically/CenterHorizontally/ParticipantID.value
@@ -16,7 +20,7 @@ func _on_start_experiment_pressed() -> void:
 	# create trials
 	ExperimentLogic.prepareTrials(ExperimentLogic.REPETITIONS, ExperimentLogic.get_node("Trials").get_node("ExperimentTrials"))
 	
-	# create training trials
+	# create training trials 
 	ExperimentLogic.prepareTrials(1, ExperimentLogic.get_node("Trials").get_node("TrainingTrials"))
 	
 	# get trial counts
@@ -41,3 +45,9 @@ func _on_start_experiment_pressed() -> void:
 	# instantiate the current trial
 	ExperimentLogic.getNextTrial()._populateTrial()
 	
+
+# handle translations
+func _on_language_select_item_selected(index: int) -> void:
+	# get selected language string
+	var selected_lang : String = $CenterVertically/HBoxContainer/LanguageSelect.get_item_text(index)
+	TranslationServer.set_locale(selected_lang)

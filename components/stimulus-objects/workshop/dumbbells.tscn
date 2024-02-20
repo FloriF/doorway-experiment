@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://xhkvat5ye20o"]
-
-[ext_resource type="PackedScene" uid="uid://cqqmtr4p2nabp" path="res://assets/gym/dumbbells.glb" id="1_wmrm4"]
-
-[node name="dumbbells" instance=ExtResource("1_wmrm4")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0864143, 0)

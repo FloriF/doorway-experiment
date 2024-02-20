@@ -27,9 +27,7 @@ func _ready() -> void:
 		print("OpenXR not initialized, please check if your headset is connected")
 
 func fadeToBlack() -> void:
-	$XRCamera3D/FadeAnimation.play("fade_to_black")
-	# give the player some time in the dark, during which the next trial will be prepared
-	$XRCamera3D/Timer.start()
+	$XRCamera3D/FadeAnimation.play("fade2black", -1, 10)
 	
 func fadeToScene() -> void:
 	$XRCamera3D/FadeAnimation.play_backwards("fade_to_black")
@@ -65,8 +63,9 @@ func toggle_triggers(new_state: bool) -> void:
 # call the teleport function of the xr tools player body
 # NOTE the actual teleportation happens on the timer timeout!
 func initiate_teleport(target_transform) -> void:
-	# fade to black
-	$XRCamera3D/FadeAnimation.play("fade2black")
+	# fade to black very quickly
+	# not needed at this point anymore, to prevent peeking into the next trial
+	#$XRCamera3D/FadeAnimation.play("fade2black", -1, 2)
 	# start timer so fade animation finishes before player is teleported
 	$PlayerBody/TeleportTimer.start()
 	# set teleport location
@@ -84,7 +83,6 @@ func _on_teleport_timer_timeout() -> void:
 	$PlayerBody.teleport(teleport_transform)
 	# fade back to scene
 	$XRCamera3D/FadeAnimation.play_backwards("fade2black")
-
 
 func _on_feedback_message_timer_timeout() -> void:
 	# clear the feedback message

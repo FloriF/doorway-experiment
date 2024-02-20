@@ -42,8 +42,14 @@ movie_writer/disable_vsync=true
 
 enabled=PackedStringArray("res://addons/godot-xr-tools/plugin.cfg")
 
+[internationalization]
+
+locale/translations=PackedStringArray("res://components/lang/translations.de.translation", "res://components/lang/translations.en.translation")
+
 [layer_names]
 
+3d_render/layer_1="Everything"
+3d_render/layer_20="ItemDisplayLids"
 3d_physics/layer_1="Static World"
 3d_physics/layer_2="Dynamic World"
 3d_physics/layer_3="Pickable Objects"

@@ -1,6 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://7dgeyjgervdc"]
+[gd_scene load_steps=3 format=3 uid="uid://7dgeyjgervdc"]
 
 [ext_resource type="Script" path="res://components/control-windows/startup-window.gd" id="1_nfs84"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_korby"]
+font_size = 10
+font_color = Color(1, 0.682353, 0, 1)
 
 [node name="StartupWindow" type="Window" groups=["controlWindow"]]
 title = "Doorway Experiment - Startup"
@@ -16,6 +20,29 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterVertically"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="CenterVertically/HBoxContainer"]
+layout_mode = 2
+text = "Language"
+
+[node name="LanguageSelect" type="OptionButton" parent="CenterVertically/HBoxContainer"]
+layout_mode = 2
+item_count = 2
+selected = 0
+popup/item_0/text = "en"
+popup/item_0/id = 0
+popup/item_1/text = "de"
+popup/item_1/id = 1
+
+[node name="Label2" type="Label" parent="CenterVertically"]
+layout_mode = 2
+text = "(only for participant)"
+label_settings = SubResource("LabelSettings_korby")
+horizontal_alignment = 1
 
 [node name="CenterHorizontally" type="HBoxContainer" parent="CenterVertically"]
 layout_mode = 2
@@ -33,4 +60,5 @@ alignment = 1
 layout_mode = 2
 text = "Start Experiment"
 
+[connection signal="item_selected" from="CenterVertically/HBoxContainer/LanguageSelect" to="." method="_on_language_select_item_selected"]
 [connection signal="pressed" from="CenterVertically/StartExperiment" to="." method="_on_start_experiment_pressed"]

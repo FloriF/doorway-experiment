@@ -49,8 +49,9 @@ func validTrial() -> void:
 	# LiveData information for average correctness
 	if objects_changed == respone_objects_have_changed:
 		ExperimentLogic.correct_trials += 1
-	# wait to let button movement animations finish (XR interactable areas buttons)
-	await get_tree().create_timer(2.0).timeout
+	ExperimentLogic.currentPlayerNode.fadeToBlack()
+	# wait to let button movement animations finish (XR interactable areas buttons might throw an error if not done)
+	await get_tree().create_timer(0.5).timeout
 	# move the trial to the completed trial group
 	self.reparent(ExperimentLogic.get_node("Trials").get_node("CompletedTrials"))
 	_endTrial("valid")
@@ -69,6 +70,8 @@ func errorTrial(error_str: String = "") -> void:
 	repetition += 1
 	# reset the error string
 	error_info = ""
+	# wait to let button movement animations finish (XR interactable areas buttons might throw an error if not done)
+	await get_tree().create_timer(0.5).timeout
 	# move the trial to the error trial group
 	self.reparent(ExperimentLogic.get_node("Trials").get_node("ErrorTrials"))
 	_endTrial("error")
@@ -135,6 +138,8 @@ func _populateRooms(room1, room2, door) -> void:
 	var workshops = ExperimentLogic.workshop_variations.duplicate()
 	livingrooms.shuffle()
 	workshops.shuffle()
+	# this string is adapted in the conditions below so we get the correct color of the walls on it
+	var doorway_name : String = "Doorway_"
 	
 	# rooms are strings, one of ["LivingRoom", "Workshop"], door ["Doorway", "NoDoorway"]
 	# go through first and second room separately
@@ -142,19 +147,24 @@ func _populateRooms(room1, room2, door) -> void:
 	if room1 == "LivingRoom":
 		# instantiate a random living room variation at the first room's position
 		$TrialSetup/PositionRoom1.add_child(load(livingrooms.pick_random()).instantiate())
+		doorway_name += "Liv"
 	else:
 		# instantiate a workshop
 		$TrialSetup/PositionRoom1.add_child(load(workshops.pick_random()).instantiate())
+		doorway_name += "Wor"
 	# repeat for second room
 	if room2 == "LivingRoom":
 		# instantiate a random living room variation at the first room's position
 		$TrialSetup/PositionRoom2.add_child(load(livingrooms.pick_random()).instantiate())
+		doorway_name += "Liv"
 	else:
 		# instantiate a workshop
 		$TrialSetup/PositionRoom2.add_child(load(workshops.pick_random()).instantiate())
+		doorway_name += "Wor"
 	# if a doorway should be present, create one
 	if door == "Doorway":
-			$TrialSetup/PositionDoorway.add_child(load("res://components/rooms/Doorway.tscn").instantiate())
+			$TrialSetup/PositionDoorway.add_child(load("res://components/rooms/" + doorway_name +
+													   ".tscn").instantiate())
 	# else do nothing
 	
 	# next, add the buttons to the rooms
@@ -185,7 +195,7 @@ func _getTrialSaveData() -> Dictionary:
 		"objects_changed": objects_changed,
 		"switched_locations" : switched_locations,
 		# collected data
-		"respone_objects_have_changed": respone_objects_have_changed,
+		"response_objects_have_changed": respone_objects_have_changed,
 		"response_time": response_time,
 		"confidence": confidence,
 		"confidence_time": confidence_time,
@@ -211,20 +221,51 @@ func _getTrialSaveData() -> Dictionary:
 func _saveTrial() -> void:
 	var currentTrialSaveData = _getTrialSaveData()
 	# make JSON string (sort: false, full_precision: true)
-	var currentTrialSaveDataJSON = JSON.stringify(currentTrialSaveData, "", false, true)
+	var currentTrialSaveDataJSON = JSON.stringify(currentTrialSaveData, "\t", false, true)
+	var currentTrialSaveDataCSV : String = _CSVstringify(currentTrialSaveData)
 	print(currentTrialSaveDataJSON)
 	# actually save the data to the save file
 	var file = FileAccess.open(ExperimentLogic.saveFile, FileAccess.READ_WRITE)
 	# jump to end of file
 	file.seek_end(-1)
 	# write data to file
-	file.store_line(currentTrialSaveDataJSON)
+	file.store_line(currentTrialSaveDataCSV)
 	# add a new line
-	file.store_line("\n")
+	#file.store_line("\n")
 	# (not necessary) close file
 	file.close()
 
+# convert the dictionary with the trial data to a single line that can be written into a csv file
+func _CSVstringify(dat : Dictionary) -> String:
+	# prepare empty string
+	var csvString : String = ""
 	
+	# in the following order, get the value from the dictionary and add comma/new line
+	csvString += str(dat["trial_number"]) + ","
+	csvString += str(dat["trialtype"]) + ","
+	csvString += str(dat["first_room"]) + ","
+	csvString += str(dat["doorway"]) + ","
+	csvString += str(dat["second_room"]) + ","
+	csvString += str(dat["objects_changed"]) + ","
+	csvString += str(dat["switched_locations"]) + ","
+	csvString += str(dat["response_objects_have_changed"]) + ","
+	csvString += str(dat["response_time"]) + ","
+	csvString += str(dat["confidence"]) + ","
+	csvString += str(dat["confidence_time"]) + ","
+	csvString += str(dat["repetitions"]) + ","
+	csvString += str(dat["error_info"]) + ","
+	csvString += str(dat["Location1"]) + ","
+	csvString += str(dat["Location2"]) + ","
+	csvString += str(dat["Location3"]) + ","
+	csvString += str(dat["Location4"]) + ","
+	csvString += str(dat["Location5"]) + ","
+	csvString += str(dat["Location6"]) + ","
+	csvString += str(dat["Location7"]) + ","
+	csvString += str(dat["first_room_variant"]) + ","
+	csvString += str(dat["second_room_variant"]) + "\n"
+	
+	return csvString
+
 # do all the stuff that is needed after the current trial ended and has been moved
 func _endTrial(success : String = "") -> void:
 	# stop and reset all timers for this trial, so they start fresh when the trial is repeated
@@ -233,8 +274,6 @@ func _endTrial(success : String = "") -> void:
 	ExperimentLogic.setNextTrial(ExperimentLogic.pickRandomTrial())
 	# instantiate the objects for this next trial
 	ExperimentLogic.getNextTrial()._populateTrial()
-	# move the player node to the next trial
-	#ExperimentLogic.currentPlayerNode.reparent(ExperimentLogic.getNextTrial())
 	# make this trial the current trial
 	ExperimentLogic.getNextTrial().reparent(ExperimentLogic.get_node("Trials").get_node("CurrentTrial"))
 	
@@ -267,14 +306,14 @@ func _on_movement_timer_timeout() -> void:
 	# make error trial if participant is not in response area (moved too slow between displays)
 	# this is done so it is very improbable the player did not actually see the second display
 	if not playerInResponseArea:
-		get_tree().call_group("player", "giveFeedback", "Please try to get to the\n second room a little faster")
+		get_tree().call_group("player", "giveFeedback", "TOO_SLOW_MOVE")
 		await get_tree().create_timer(1).timeout
 		errorTrial("playerNotInResponseArea")
 
 func _on_response_timer_timeout() -> void:
-	get_tree().call_group("player", "giveFeedback", "Please respond a little faster")
+	get_tree().call_group("player", "giveFeedback", "TOO_SLOW_RESPONSE")
 	errorTrial("slowResponse")
 	
 func _on_confidence_timer_timeout() -> void:
-	get_tree().call_group("player", "giveFeedback", "Please respond a little faster")
+	get_tree().call_group("player", "giveFeedback", "TOO_SLOW_RESPONSE")
 	errorTrial("slowConfidence")

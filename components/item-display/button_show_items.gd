@@ -34,8 +34,8 @@ func _on_interactable_area_button_button_pressed(button: Variant) -> void:
 		# hide the button
 		$Button/HideButton.play("hide")
 		# deactivate the button to be sure
-		$Button/InteractableAreaButton.monitoring = false
-		
+		#$Button/InteractableAreaButton.monitoring = false
+		$Button/InteractableAreaButton.set_deferred("monitoring", false)
 
 # haptic feedback to controller if button is pressed
 func _on_interactable_area_button_body_entered(body: Node3D) -> void:
