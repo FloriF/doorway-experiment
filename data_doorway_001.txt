@@ -1,4 +1,0 @@
-trial_number,trialtype,first_room,doorway,second_room,objects_changed,switched_locations,response_objects_have_changed,response_time,confidence,confidence_time,repetitions,error_info,Location1,Location2,Location3,Location4,Location5,Location6,Location7,first_room_variant,second_room_variant
-1,TrainingTrial,Workshop,NoDoorway,Workshop,true,Location7Location4,false,1.90608188888891,2,0.72407611111112,0,,can_1,none,none,controller_1,wrench,hammer,calculator,Workshop-1,Workshop-1
-2,TrainingTrial,Workshop,NoDoorway,LivingRoom,true,Location7Location2,true,2.01879755555557,2,1.08614900000002,0,,can_1,controller_1,hammer,wrench,none,none,calculator,Workshop-1,LivingRoom-1
-

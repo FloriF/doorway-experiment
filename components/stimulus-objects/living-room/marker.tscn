@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://b1omilemo5ppb"]
+
+[ext_resource type="PackedScene" uid="uid://b3w2sejw6l6ir" path="res://assets/small_objects/marker.glb" id="1_sgjxi"]
+
+[node name="marker" instance=ExtResource("1_sgjxi")]
+
+[node name="Cylinder_028" parent="." index="0"]
+transform = Transform3D(0.00965926, 8.12476e-10, 0.00258819, 0, 0.01, -3.13916e-09, -0.00258819, 3.0322e-09, 0.00965926, 0, 0.0134598, 0)
+
+[node name="Cylinder_030" parent="Cylinder_028" index="0"]
+transform = Transform3D(0.0149004, 0, 0, -2.22045e-16, 0.0149004, 4.44089e-16, -4.65661e-10, 0, 0.0253583, -0.000976563, 0.045, 9.93713)

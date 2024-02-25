@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://ch7hiaf3f4sol"]
+
+[ext_resource type="PackedScene" uid="uid://dj70xp0bv38o4" path="res://assets/small_objects/screwdriver.glb" id="1_ad0x7"]
+
+[node name="screwdriver" instance=ExtResource("1_ad0x7")]
+
+[node name="Screwdriver 1" parent="." index="0"]
+transform = Transform3D(0.00866025, -0.005, 0, 0, 0, -0.01, 0.005, 0.00866025, 0, 0, 0.013, 0)

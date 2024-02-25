@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://7ro7d1no4eer"]
+
+[ext_resource type="PackedScene" uid="uid://dd84rf1314wwe" path="res://assets/small_objects/soap.glb" id="1_ban6e"]
+
+[node name="soap" instance=ExtResource("1_ban6e")]
+
+[node name="Cube_107" parent="." index="0"]
+transform = Transform3D(-0.00802592, -0.00463377, 1.65716e-09, 0, -3.31433e-09, -0.00926754, 0.00463377, -0.00802592, 2.87029e-09, 0, 0.035, 0)

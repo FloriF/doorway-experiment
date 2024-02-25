@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://d7ra0ix6lg6q"]
+
+[ext_resource type="PackedScene" uid="uid://c2k6kqp2m4mi7" path="res://assets/gym/weight_3.glb" id="1_4pxp7"]
+
+[node name="weight_3" instance=ExtResource("1_4pxp7")]
+
+[node name="Weight_B" parent="." index="0"]
+transform = Transform3D(-2.06558e-10, -0.00881303, 0.00472551, 0.01, 0, 4.37114e-10, -3.8523e-10, 0.00472551, 0.00881303, 0, 0.0275925, 0)

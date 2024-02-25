@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://4o6q4kx0kwpd"]
+
+[ext_resource type="PackedScene" uid="uid://3v0w1q523l1i" path="res://assets/small_objects/mouse.glb" id="1_dl0kr"]
+
+[node name="mouse" instance=ExtResource("1_dl0kr")]
+
+[node name="Cube_114" parent="." index="0"]
+transform = Transform3D(0.00439265, 0.00898357, -3.21278e-09, 0, -3.57628e-09, -0.01, -0.00898357, 0.00439265, -1.57093e-09, 0, 0.0174898, 0)

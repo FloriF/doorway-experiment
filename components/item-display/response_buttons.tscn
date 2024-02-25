@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://xb6sj3p48e84"]
+[gd_scene load_steps=19 format=3 uid="uid://xb6sj3p48e84"]
 
 [ext_resource type="Material" uid="uid://e81bkoiygi7b" path="res://assets/item-display/item_display_material.tres" id="1_cukr5"]
 [ext_resource type="Script" path="res://components/item-display/response_buttons.gd" id="1_ddh4d"]
@@ -65,15 +65,6 @@ _data = {
 "hide": SubResource("Animation_t2gy0")
 }
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lx46c"]
-resource_name = "Material.001"
-cull_mode = 2
-vertex_color_use_as_albedo = true
-albedo_color = Color(0.807843, 0.682353, 0, 1)
-roughness = 0.56
-emission_enabled = true
-emission = Color(0.807843, 0.682353, 0, 1)
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_27lx1"]
 resource_name = "Material.001"
 cull_mode = 2
@@ -102,15 +93,6 @@ emission_enabled = true
 emission = Color(0.807843, 0.682353, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_urghf"]
-resource_name = "Material.001"
-cull_mode = 2
-vertex_color_use_as_albedo = true
-albedo_color = Color(0.807843, 0.682353, 0, 1)
-roughness = 0.56
-emission_enabled = true
-emission = Color(0.807843, 0.682353, 0, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tduak"]
 resource_name = "Material.001"
 cull_mode = 2
 vertex_color_use_as_albedo = true
@@ -232,37 +214,6 @@ libraries = {
 
 [node name="ConfidenceButtons" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.5, 0)
-
-[node name="Conf_wrong3" type="Node3D" parent="ConfidenceButtons"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.596994, 0, 0.190715)
-
-[node name="ButtonBase" type="MeshInstance3D" parent="ConfidenceButtons/Conf_wrong3"]
-transform = Transform3D(0.200875, 0, 0, 0, 1.00438, 0, 0, 0, 0.200875, -0.0159755, 0.0913399, 0.82673)
-material_override = ExtResource("1_cukr5")
-mesh = SubResource("BoxMesh_rs5fa")
-skeleton = NodePath("../../..")
-
-[node name="Conf_wrong3" type="Area3D" parent="ConfidenceButtons/Conf_wrong3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.678056, 1.07606, 0.82673)
-collision_layer = 0
-collision_mask = 131072
-monitoring = false
-script = ExtResource("3_3xu2g")
-button = NodePath("ButtonMesh")
-
-[node name="ButtonCollision" type="CollisionShape3D" parent="ConfidenceButtons/Conf_wrong3/Conf_wrong3"]
-transform = Transform3D(0.1, 0, 0, 0, -0.1, 0, 0, 0, 0.1, 0.662081, -0.0141094, 0)
-shape = SubResource("BoxShape3D_453qv")
-
-[node name="ButtonMesh" type="MeshInstance3D" parent="ConfidenceButtons/Conf_wrong3/Conf_wrong3"]
-transform = Transform3D(0.1, 0, 0, 0, -0.1, 0, 0, 0, 0.1, 0.662081, -0.0141094, 0)
-material_override = SubResource("StandardMaterial3D_lx46c")
-mesh = SubResource("BoxMesh_0mjy1")
-skeleton = NodePath("../../../..")
-
-[node name="Label3D" type="Label3D" parent="ConfidenceButtons/Conf_wrong3/Conf_wrong3/ButtonMesh"]
-transform = Transform3D(1.269, -1.1094e-07, -2.42428e-14, 0, 5.54698e-08, -6.344, -1.1094e-07, -1.269, -2.77305e-07, 0, -0.50317, 0.00330162)
-text = "CERTAINLY_WRONG"
 
 [node name="Conf_wrong2" type="Node3D" parent="ConfidenceButtons"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.346994, 0, 0.0700028)
@@ -388,37 +339,6 @@ skeleton = NodePath("../../../..")
 transform = Transform3D(1.269, -1.1094e-07, -2.42428e-14, 0, 5.54698e-08, -6.344, -1.1094e-07, -1.269, -2.77305e-07, 0, -0.50317, 0.00330162)
 text = "PROBABLY_CORRECT"
 
-[node name="Conf_correct3" type="Node3D" parent="ConfidenceButtons"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.66437, 0, 0.190715)
-
-[node name="ButtonBase" type="MeshInstance3D" parent="ConfidenceButtons/Conf_correct3"]
-transform = Transform3D(0.200875, 0, 0, 0, 1.00438, 0, 0, 0, 0.200875, -0.0159755, 0.0913399, 0.82673)
-material_override = ExtResource("1_cukr5")
-mesh = SubResource("BoxMesh_rs5fa")
-skeleton = NodePath("../../..")
-
-[node name="Conf_correct3" type="Area3D" parent="ConfidenceButtons/Conf_correct3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.678056, 1.07606, 0.82673)
-collision_layer = 0
-collision_mask = 131072
-monitoring = false
-script = ExtResource("3_3xu2g")
-button = NodePath("ButtonMesh")
-
-[node name="ButtonCollision" type="CollisionShape3D" parent="ConfidenceButtons/Conf_correct3/Conf_correct3"]
-transform = Transform3D(0.1, 0, 0, 0, -0.1, 0, 0, 0, 0.1, 0.662081, -0.0141094, 0)
-shape = SubResource("BoxShape3D_453qv")
-
-[node name="ButtonMesh" type="MeshInstance3D" parent="ConfidenceButtons/Conf_correct3/Conf_correct3"]
-transform = Transform3D(0.1, 0, 0, 0, -0.1, 0, 0, 0, 0.1, 0.662081, -0.0141094, 0)
-material_override = SubResource("StandardMaterial3D_tduak")
-mesh = SubResource("BoxMesh_0mjy1")
-skeleton = NodePath("../../../..")
-
-[node name="Label3D" type="Label3D" parent="ConfidenceButtons/Conf_correct3/Conf_correct3/ButtonMesh"]
-transform = Transform3D(1.269, -1.1094e-07, -2.42428e-14, 0, 5.54698e-08, -6.344, -1.1094e-07, -1.269, -2.77305e-07, 0, -0.50317, 0.00330162)
-text = "CERTAINLY_CORRECT"
-
 [node name="ShowConfidenceButtons" type="AnimationPlayer" parent="ConfidenceButtons"]
 libraries = {
 "": SubResource("AnimationLibrary_vglxw")
@@ -429,8 +349,6 @@ libraries = {
 [connection signal="body_entered" from="AnswerButtons/DifferentButton/DifferentButton" to="." method="_on_ANY_button_body_entered"]
 [connection signal="button_pressed" from="AnswerButtons/DifferentButton/DifferentButton" to="." method="_on_different_button_button_pressed"]
 [connection signal="animation_finished" from="AnswerButtons/HideResponseButtons" to="." method="_on_hide_response_buttons_animation_finished"]
-[connection signal="body_entered" from="ConfidenceButtons/Conf_wrong3/Conf_wrong3" to="." method="_on_ANY_button_body_entered"]
-[connection signal="button_pressed" from="ConfidenceButtons/Conf_wrong3/Conf_wrong3" to="." method="_on_conf_wrong_3_button_pressed"]
 [connection signal="body_entered" from="ConfidenceButtons/Conf_wrong2/Conf_wrong2" to="." method="_on_ANY_button_body_entered"]
 [connection signal="button_pressed" from="ConfidenceButtons/Conf_wrong2/Conf_wrong2" to="." method="_on_conf_wrong_2_button_pressed"]
 [connection signal="body_entered" from="ConfidenceButtons/Conf_wrong1/Conf_wrong1" to="." method="_on_ANY_button_body_entered"]
@@ -439,6 +357,4 @@ libraries = {
 [connection signal="button_pressed" from="ConfidenceButtons/Conf_correct1/Conf_correct1" to="." method="_on_conf_correct_1_button_pressed"]
 [connection signal="body_entered" from="ConfidenceButtons/Conf_correct2/Conf_correct2" to="." method="_on_ANY_button_body_entered"]
 [connection signal="button_pressed" from="ConfidenceButtons/Conf_correct2/Conf_correct2" to="." method="_on_conf_correct_2_button_pressed"]
-[connection signal="body_entered" from="ConfidenceButtons/Conf_correct3/Conf_correct3" to="." method="_on_ANY_button_body_entered"]
-[connection signal="button_pressed" from="ConfidenceButtons/Conf_correct3/Conf_correct3" to="." method="_on_conf_correct_3_button_pressed"]
 [connection signal="animation_finished" from="ConfidenceButtons/ShowConfidenceButtons" to="." method="_on_show_confidence_buttons_animation_finished"]

@@ -7,9 +7,9 @@ TOO_SLOW_MOVE,Please try to get to the\n second room a little faster,Bitte beweg
 TOO_SLOW_RESPONSE,Please respond a little faster,Bitte antworte etwas schneller
 SAME,SAME,GLEICH
 DIFF,DIFF,VERSCH
-CERTAINLY_WRONG,certainly\nwrong,sicher\nfalsch
-PROBABLY_WRONG,probably\nwrong,wahrscheinlich\nfalsch
-MAYBE_WRONG,maybe\nwrong,vielleicht\nfalsch
-MAYBE_CORRECT,maybe\ncorrect,vielleicht\nrichtig
-PROBABLY_CORRECT,probably\ncorrect,wahrscheinlich\nrichtig
-CERTAINLY_CORRECT,certainly\ncorrect,sicher\nrichtig
+CERTAINLY_WRONG,ERROR-3,ERROR-3
+PROBABLY_WRONG,guess,geraten
+MAYBE_WRONG,not\nconfident,nicht\nsicher
+MAYBE_CORRECT,quite\nconfident,ziemlich\nsicher
+PROBABLY_CORRECT,very\nconfident,sehr\nsicher
+CERTAINLY_CORRECT,ERROR+3,ERROR+3

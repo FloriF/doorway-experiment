@@ -20,12 +20,10 @@ func _ready() -> void:
 	$AnswerButtons/SameButton/SameButton/ButtonMesh.material_override.emission_enabled = false
 	$AnswerButtons/DifferentButton/DifferentButton/ButtonMesh.material_override.emission_enabled = false
 	
-	$ConfidenceButtons/Conf_wrong3/Conf_wrong3/ButtonMesh.material_override.emission_enabled = false
 	$ConfidenceButtons/Conf_wrong2/Conf_wrong2/ButtonMesh.material_override.emission_enabled = false
 	$ConfidenceButtons/Conf_wrong1/Conf_wrong1/ButtonMesh.material_override.emission_enabled = false
 	$ConfidenceButtons/Conf_correct1/Conf_correct1/ButtonMesh.material_override.emission_enabled = false
 	$ConfidenceButtons/Conf_correct2/Conf_correct2/ButtonMesh.material_override.emission_enabled = false
-	$ConfidenceButtons/Conf_correct3/Conf_correct3/ButtonMesh.material_override.emission_enabled = false
 	# also deactivate the response buttons until they are needed
 	$AnswerButtons/SameButton/SameButton.monitoring = false
 	$AnswerButtons/DifferentButton/DifferentButton.monitoring = false
@@ -110,8 +108,8 @@ func _confidence_given(conf: int = 0) -> void:
 	
 # deactivates bpth response buttons
 func _deactivateResponseButtons() -> void:
-	$AnswerButtons/SameButton/SameButton.monitoring = false
-	$AnswerButtons/DifferentButton/DifferentButton.monitoring = false
+	$AnswerButtons/SameButton/SameButton.set_deferred("monitoring", false)
+	$AnswerButtons/DifferentButton/DifferentButton.set_deferred("monitoring",  false)
 	
 func _on_same_button_button_pressed(button: Variant) -> void:
 	# make the button glow
@@ -155,38 +153,26 @@ func _on_show_confidence_buttons_animation_finished(anim_name: StringName) -> vo
 	# once the confidence buttons are completely visible and stopped moving, start confidence timer
 	ExperimentLogic.getCurrentTrial().get_node("ConfidenceTimer").start()
 	# enable the buttons (so earlier responses while still moving are not counted)
-	$ConfidenceButtons/Conf_wrong3/Conf_wrong3.set_deferred("monitoring", true)
 	$ConfidenceButtons/Conf_wrong2/Conf_wrong2.set_deferred("monitoring", true)
 	$ConfidenceButtons/Conf_wrong1/Conf_wrong1.set_deferred("monitoring", true)
 	$ConfidenceButtons/Conf_correct1/Conf_correct1.set_deferred("monitoring", true)
 	$ConfidenceButtons/Conf_correct2/Conf_correct2.set_deferred("monitoring", true)
-	$ConfidenceButtons/Conf_correct3/Conf_correct3.set_deferred("monitoring", true)
 
 # in case multiple confidence buttons are triggered, there will be 2 trials in current trial
 # to prevent this, immediately disable all buttons after one collision was detected
 func _deactivateConfidenceButtons() -> void:
-	$ConfidenceButtons/Conf_wrong3/Conf_wrong3.set_deferred("monitoring", false)
 	$ConfidenceButtons/Conf_wrong2/Conf_wrong2.set_deferred("monitoring", false)
 	$ConfidenceButtons/Conf_wrong1/Conf_wrong1.set_deferred("monitoring", false)
 	$ConfidenceButtons/Conf_correct1/Conf_correct1.set_deferred("monitoring", false)
 	$ConfidenceButtons/Conf_correct2/Conf_correct2.set_deferred("monitoring", false)
-	$ConfidenceButtons/Conf_correct3/Conf_correct3.set_deferred("monitoring", false)
-
-# do basically the same for all confidence buttons with slight variations
-func _on_conf_wrong_3_button_pressed(_button: Variant) -> void:
-	# make the button glow
-	$ConfidenceButtons/Conf_wrong3/Conf_wrong3/ButtonMesh.material_override.emission_enabled = true
-	# only register an answer and proceed if we actually exppect an answer
-	if $ConfidenceButtons/Conf_wrong3/Conf_wrong3.monitoring == true:
-		_confidence_given(-3)
-	# now deactivate all buttons
-	_deactivateConfidenceButtons()
 
 func _on_conf_wrong_2_button_pressed(_button: Variant) -> void: 
+	# make the button glow
 	$ConfidenceButtons/Conf_wrong2/Conf_wrong2/ButtonMesh.material_override.emission_enabled = true
 	# only register an answer and proceed if we actually exppect an answer
 	if $ConfidenceButtons/Conf_wrong2/Conf_wrong2.monitoring == true:
 		_confidence_given(-2)
+	# now deactivate all buttons
 	_deactivateConfidenceButtons()
 
 func _on_conf_wrong_1_button_pressed(_button: Variant) -> void:
@@ -208,13 +194,6 @@ func _on_conf_correct_2_button_pressed(_button: Variant) -> void:
 	# only register an answer and proceed if we actually exppect an answer
 	if $ConfidenceButtons/Conf_correct2/Conf_correct2.monitoring == true:
 		_confidence_given(2)
-	_deactivateConfidenceButtons()
-
-func _on_conf_correct_3_button_pressed(_button: Variant) -> void:
-	$ConfidenceButtons/Conf_correct3/Conf_correct3/ButtonMesh.material_override.emission_enabled = true
-	# only register an answer and proceed if we actually exppect an answer
-	if $ConfidenceButtons/Conf_correct3/Conf_correct3.monitoring == true:
-		_confidence_given(3)
 	_deactivateConfidenceButtons()
 
 # haptic feedback responses for pressed buttons

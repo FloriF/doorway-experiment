@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://p80furgkodte"]
+
+[ext_resource type="PackedScene" uid="uid://u1brlth70vab" path="res://assets/small_objects/cd.glb" id="1_dx2ew"]
+
+[node name="cd" instance=ExtResource("1_dx2ew")]
+
+[node name="Game Disk" parent="." index="0"]
+transform = Transform3D(0.0029117, -0.00956671, 3.42132e-09, 0, -3.57628e-09, -0.01, 0.00956671, 0.0029117, -1.0413e-09, 0, 0.007, 0)

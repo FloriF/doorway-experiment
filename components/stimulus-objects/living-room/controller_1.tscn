@@ -1,5 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://q7j0mqkii0s0"]
-
-[ext_resource type="PackedScene" uid="uid://bwqqapve2syi8" path="res://assets/appliances/controller_1.glb" id="1_qvv16"]
-
-[node name="controller_1" instance=ExtResource("1_qvv16")]

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://d3iwetf0engfw"]
+
+[ext_resource type="PackedScene" uid="uid://cqqmtr4p2nabp" path="res://assets/gym/dumbbells.glb" id="1_k15no"]
+
+[node name="dumbbells" instance=ExtResource("1_k15no")]
+
+[node name="Dumbbells_1" parent="." index="0"]
+transform = Transform3D(0.00866025, -0.005, 0, 0, 0, -0.01, 0.005, 0.00866025, 0, 0, 0.0822068, 0)
