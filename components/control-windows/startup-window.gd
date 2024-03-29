@@ -11,6 +11,9 @@ var player = preload("res://components/player/player.tscn").instantiate()
 func _ready() -> void:
 	# default language
 	TranslationServer.set_locale("en")
+	# initialize random number generator
+	randomize()
+	#seed(1) # for testing purposes only!
 
 func _on_start_experiment_pressed() -> void:
 	# put startup window input into experiment logic

@@ -75,7 +75,6 @@ metadata/_edit_group_ = true
 [node name="XRCamera3D" type="XRCamera3D" parent="."]
 
 [node name="Vignette" parent="XRCamera3D" instance=ExtResource("1_dl8c6")]
-visible = false
 auto_rotation_limit = 5.0
 auto_velocity_limit = 2.0
 

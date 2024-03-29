@@ -63,7 +63,7 @@ func errorTrial(error_str: String = "") -> void:
 	if trialtype == "ExperimentalTrial":
 		ExperimentLogic.number_of_error_trials += 1
 	if trialtype == "TrainingTrial":
-		ExperimentLogic.number_of_error_training_trials += 1		
+		ExperimentLogic.number_of_error_training_trials += 1
 	# save trial data to file
 	_saveTrial()
 	# increase the repetitions counter for this trial
@@ -72,8 +72,12 @@ func errorTrial(error_str: String = "") -> void:
 	error_info = ""
 	# wait to let button movement animations finish (XR interactable areas buttons might throw an error if not done)
 	await get_tree().create_timer(0.5).timeout
+	# the trial will be repeated, so we need to remove all objects
+	# the trial will be populated again when it is picked to be presented
+	_depopulateTrial()
 	# move the trial to the error trial group
 	self.reparent(ExperimentLogic.get_node("Trials").get_node("ErrorTrials"))
+	
 	_endTrial("error")
 	
 ###################################################################################################
@@ -91,14 +95,15 @@ func _populateTrial() -> void:
 func _depopulateTrial() -> void:
 	# remove the doorway (if there is one!) and the two rooms with everything in them
 	if $TrialSetup/PositionDoorway.get_child_count() != 0:
-		$TrialSetup/PositionDoorway.get_child(0).queue_free()
-	$TrialSetup/PositionRoom1.get_child(0).queue_free()
-	$TrialSetup/PositionRoom2.get_child(0).queue_free()
+		$TrialSetup/PositionDoorway.get_child(0).free()
+	$TrialSetup/PositionRoom1.get_child(0).free()
+	$TrialSetup/PositionRoom2.get_child(0).free()
 	# remove the objects by looping over all locations
-	for location in $ObjectLayout.get_children():
+	var possibleLocations = $ObjectLayout.get_children()
+	for location in possibleLocations:
 		# if there is an object, delete it
 		if location.get_child_count() != 0:
-			location.get_child(0).queue_free()
+			location.get_child(0).free()
 
 # draw random objects and put them at random positions
 func _populateObjectLayout(numberOfObjects, objectContexts) -> void:
@@ -129,7 +134,7 @@ func _populateObjectLayout(numberOfObjects, objectContexts) -> void:
 		# use pop_back, because this is slightly faster and does not have to change any index values
 		var selectedObject = load(objects.pop_back())
 		# add this random object at this location
-		location.add_child(selectedObject.instantiate())	
+		location.add_child(selectedObject.instantiate())
 	
 # loads the room variations and the doorway into the current trial
 func _populateRooms(room1, room2, door) -> void:
@@ -281,10 +286,6 @@ func _endTrial(success : String = "") -> void:
 		# delete the nodes so they do not accidentally appear
 		for node in self.get_children():
 			node.queue_free()
-	else:
-		# the trial will be repeated, so we need to remove all objects
-		# the trial will be populated again when it is picked to be presented
-		self._depopulateTrial()
 	
 	# now everything is done, so we can start the next trial by moving the player there
 	ExperimentLogic.addPlayerToCurrentTrial()

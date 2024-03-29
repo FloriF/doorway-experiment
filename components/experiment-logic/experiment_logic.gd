@@ -31,7 +31,7 @@ const NUMBER_OF_OBJECTS = 5 # how many of the 7 locations should contain an obje
 var currentTrialType : String = ""
 var training_is_completed: bool = false 
 # experiment timings
-const MAX_MOVEMENT_TIME = 10 # maximum time allowed to move between item displays
+const MAX_MOVEMENT_TIME = 11 # maximum time allowed to move between item displays
 # this is the time from initital button press until the lid of the second display starts opening
 # so this INCLUDES the total initial presentation time (2*DISPLAY_OPENING + DISPLAY_STAY times) 
 
@@ -39,10 +39,10 @@ const MAX_RESPONSE_TIME = 5 # maximum time to give a response after seeing the o
 # (THIS STARTS AS SOON AS THE DISPLAY STARTS TO OPEN!!)
 const MAX_CONFIDENCE_TIME = 5 # maximum time to give a confidence response
 
-const DOOR_WAIT_TIME = 0.5 # wait this long after participant enters door region to open the door
+const DOOR_WAIT_TIME = 0.15 # wait this long after participant enters door region to open the door
 
-const DISPLAY_OPENING_TIME = 1 # seconds it takes from start to end of display lid opening animation
-const DISPLAY_STAY_TIME = 1 # seconds the opened display stays as it is
+const DISPLAY_OPENING_TIME = 0.5 # seconds it takes from start to end of display lid opening animation
+const DISPLAY_STAY_TIME = 2 # seconds the opened display stays as it is
 # so with the above two values at 1, the total presentation time of the objects is:
 #   1 second (objects at least partially visible) opening animation
 # + 1 second (objects completely visible) stay open value
@@ -56,9 +56,6 @@ var saveFile : String = ""
 
 # runs at the very beginning (-> autoload)
 func _ready() -> void:
-	# initialize random number generator
-	randomize()
-	#seed(1) # for testing purposes only!
 	# prepare lists of possible objects to present
 	stimulusObjects_LivingRoom = _getStimulusObjects("res://components/stimulus-objects/living-room/")
 	stimulusObjects_Workshop = _getStimulusObjects("res://components/stimulus-objects/workshop/")
@@ -162,8 +159,15 @@ func pickRandomTrial() -> Node:
 	currentTrialType = "TrainingTrial"
 	if NodeWithTrials.get_child_count() == 0:
 		# next, repeat only the error training trials
-		NodeWithTrials = $Trials/ErrorTrials
-		currentTrialType = "RepeatedTrainingErrorTrial"
+		if training_is_completed:
+			# we are not in training, so we first want to do the rest of the experimental trials
+			# before we repeat those with errors
+			# -> no change in NodeWithTrials so we definitely go into the next if statement
+			currentTrialType = "RepeatedExperimentalErrorTrial"
+		else:
+			# we are still in training, so we can go to error trials and see if there are any left
+			NodeWithTrials = $Trials/ErrorTrials
+			currentTrialType = "RepeatedTrainingErrorTrial"
 		if NodeWithTrials.get_child_count() == 0:
 			# only once, notify the participant that training is completed
 			if not training_is_completed:
